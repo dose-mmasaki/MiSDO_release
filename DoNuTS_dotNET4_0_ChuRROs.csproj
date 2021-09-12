@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\donuts_public_1\py37_Cython\</PublishUrl>
+    <PublishUrl>F:\donuts_public_1\DoNuTS_ChuRROs_py37\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -153,39 +153,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataRefer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="DataRefer.cs" />
     <Compile Include="DataRefer.Designer.cs">
       <DependentUpon>DataRefer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Analyze.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Analyze.cs" />
     <Compile Include="Analyze.Designer.cs">
       <DependentUpon>Analyze.cs</DependentUpon>
     </Compile>
-    <Compile Include="AskLang.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="AskLang.cs" />
     <Compile Include="AskLang.Designer.cs">
       <DependentUpon>AskLang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dicomtxt.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Dicomtxt.cs" />
     <Compile Include="Dicomtxt.Designer.cs">
       <DependentUpon>Dicomtxt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Picture.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Picture.cs" />
     <Compile Include="Picture.Designer.cs">
       <DependentUpon>Picture.cs</DependentUpon>
     </Compile>
-    <Compile Include="PasswordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PasswordForm.cs" />
     <Compile Include="PasswordForm.Designer.cs">
       <DependentUpon>PasswordForm.cs</DependentUpon>
     </Compile>
