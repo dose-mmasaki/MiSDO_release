@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\donuts_public_1\dotNet40_OCR\</PublishUrl>
+    <PublishUrl>F:\donuts_public_1\DoNuTS_ChuRROs_py37\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -29,8 +29,8 @@
     <ErrorReportUrl>https://github.com/msk822/DoNuTS</ErrorReportUrl>
     <ProductName>DoNuTS</ProductName>
     <PublisherName>MASAKI MATSUMOTO</PublisherName>
-    <ApplicationRevision>20</ApplicationRevision>
-    <ApplicationVersion>0.2.0.%2a</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>0.5.2.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -99,7 +99,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A2099A7FD6069482428407078D17B451E5241345</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>DF8795D8106E3633CB0AAAE94AD6BFAE632EA557</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -113,6 +113,12 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>DoNuTS.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net40\EntityFramework.dll</HintPath>
@@ -120,6 +126,7 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -135,6 +142,7 @@
       <HintPath>packages\System.Data.SQLite.Linq.1.0.114.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -145,6 +153,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataRefer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataRefer.Designer.cs">
+      <DependentUpon>DataRefer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Analyze.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analyze.Designer.cs">
+      <DependentUpon>Analyze.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AskLang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AskLang.Designer.cs">
+      <DependentUpon>AskLang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dicomtxt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dicomtxt.Designer.cs">
+      <DependentUpon>Dicomtxt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Picture.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Picture.Designer.cs">
+      <DependentUpon>Picture.cs</DependentUpon>
+    </Compile>
     <Compile Include="PasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,11 +203,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>path_setting.settings</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Analyze.resx">
+      <DependentUpon>Analyze.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRefer.resx">
+      <DependentUpon>DataRefer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AskLang.resx">
+      <DependentUpon>AskLang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dicomtxt.resx">
+      <DependentUpon>Dicomtxt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PasswordForm.resx">
       <DependentUpon>PasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Picture.resx">
+      <DependentUpon>Picture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -182,9 +235,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
+    <None Include="DoNuTS.pfx" />
     <None Include="DoNuTS_dotNET4_0_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\DoNuTS_dotNET4_0.Properties.Resources.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -198,16 +253,62 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Resources\homepage\contact.html" />
+    <Content Include="Resources\homepage\download.html" />
+    <Content Include="Resources\homepage\greeting.html" />
+    <Content Include="Resources\homepage\images\CheckDotNetVersion.png" />
+    <Content Include="Resources\homepage\images\DoNuTS.png" />
+    <Content Include="Resources\homepage\images\gallery.jpg" />
+    <Content Include="Resources\homepage\images\mainImg.jpg" />
+    <Content Include="Resources\homepage\images\mainImg2.jpg" />
+    <Content Include="Resources\homepage\images\sample1.jpg" />
+    <Content Include="Resources\homepage\images\sample2.jpg" />
+    <Content Include="Resources\homepage\images\tp2.png" />
+    <Content Include="Resources\homepage\index.html" />
+    <Content Include="Resources\homepage\info.html" />
+    <Content Include="Resources\homepage\js\css3-mediaqueries.js" />
+    <Content Include="Resources\homepage\js\html5.js" />
+    <Content Include="Resources\homepage\style.css" />
+    <Content Include="Resources\homepage\subpage.html" />
+    <Content Include="Resources\homepage\usage.html" />
+    <Content Include="Resources\license\Tesseract-OCR\AUTHORS" />
+    <Content Include="Resources\license\Tesseract-OCR\LICENSE" />
+    <Content Include="Resources\license\Tesseract-OCR\README.md" />
+    <Content Include="Resources\main_analyze.py" />
+    <Content Include="Resources\main_ChuRROs.py" />
+    <Content Include="Resources\main_DoNuTS.py" />
+    <Content Include="Resources\main_out_csv.py" />
+    <Content Include="Resources\main_show_low_data.py" />
+    <Content Include="Resources\requirements.txt" />
+    <Content Include="Resources\setup.bat" />
+    <Content Include="Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl" />
+    <Content Include="Resources\moduls\Levenshtein-0.13.0-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\moduls\Pillow-8.3.1-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\moduls\pydicom-2.2.0-py3-none-any.whl" />
+    <Content Include="Resources\moduls\pyocr-0.8.tar.gz" />
+    <Content Include="Resources\moduls\python_dateutil-2.8.2-py2.py3-none-any.whl" />
+    <Content Include="Resources\moduls\pytz-2021.1-py2.py3-none-any.whl" />
+    <Content Include="Resources\moduls\six-1.16.0-py2.py3-none-any.whl" />
+    <Content Include="Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl" />
+    <Content Include="Resources\Tesseract-OCR.zip" />
+    <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
+    <Content Include="Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\cython_modules\out_csv.cp37-win_amd64.pyd" />
+    <Content Include="Resources\cython_modules\show_low_data.cp37-win_amd64.pyd" />
+    <Content Include="Resources\cython_modules\analyze.cp37-win_amd64.pyd" />
+    <Content Include="Resources\cython_modules\ChuRROs.cp37-win_amd64.pyd" />
+    <Content Include="Resources\cython_modules\DoNuTS.cp37-win_amd64.pyd" />
     <None Include="Resources\DoNuTS.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\ChuRROs.exe" />
     <Content Include="Resources\DefaultProtocol.txt" />
-    <Content Include="Resources\main.exe" />
-    <Content Include="Resources\out_csv.exe" />
     <Content Include="Resources\Path_excel.txt" />
+    <Content Include="Resources\python-3.7.8-amd64.exe" />
     <Content Include="x64\SQLite.Interop.dll" />
     <Content Include="x86\SQLite.Interop.dll" />
   </ItemGroup>
@@ -217,6 +318,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\license\DoNuTS\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

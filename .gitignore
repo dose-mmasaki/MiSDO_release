@@ -338,3 +338,21 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+Resources/homepage/contact.html
+Resources/homepage/download.html
+Resources/homepage/greeting.html
+Resources/homepage/index.html
+Resources/homepage/info.html
+Resources/homepage/style.css
+Resources/homepage/subpage.html
+Resources/homepage/usage.html
+Resources/homepage/images/CheckDotNetVersion.png
+Resources/homepage/images/DoNuTS.png
+Resources/homepage/images/gallery.jpg
+Resources/homepage/images/mainImg.jpg
+Resources/homepage/images/mainImg2.jpg
+Resources/homepage/images/sample1.jpg
+Resources/homepage/images/sample2.jpg
+Resources/homepage/images/tp2.png
+Resources/homepage/js/css3-mediaqueries.js
+Resources/homepage/js/html5.js
