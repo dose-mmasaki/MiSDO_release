@@ -513,7 +513,7 @@ namespace DoNuTS_dotNET4_0
 
         private void doNuTSについてToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@".\Resources\homepage\index.html");
+            Process.Start(@".\Resources\pdf\usage_py.pdf");
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

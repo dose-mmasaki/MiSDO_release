@@ -25,12 +25,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://github.com/msk822/DoNuTS</SupportUrl>
-    <ErrorReportUrl>https://github.com/msk822/DoNuTS</ErrorReportUrl>
+    <SupportUrl>https://donutsproject.sakura.ne.jp/index.html</SupportUrl>
+    <ErrorReportUrl>https://donutsproject.sakura.ne.jp/index.html</ErrorReportUrl>
     <ProductName>DoNuTS</ProductName>
     <PublisherName>MASAKI MATSUMOTO</PublisherName>
     <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>0.5.2.%2a</ApplicationVersion>
+    <ApplicationVersion>0.5.3.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -241,24 +241,6 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Resources\homepage\contact.html" />
-    <Content Include="Resources\homepage\download.html" />
-    <Content Include="Resources\homepage\greeting.html" />
-    <Content Include="Resources\homepage\images\CheckDotNetVersion.png" />
-    <Content Include="Resources\homepage\images\DoNuTS.png" />
-    <Content Include="Resources\homepage\images\gallery.jpg" />
-    <Content Include="Resources\homepage\images\mainImg.jpg" />
-    <Content Include="Resources\homepage\images\mainImg2.jpg" />
-    <Content Include="Resources\homepage\images\sample1.jpg" />
-    <Content Include="Resources\homepage\images\sample2.jpg" />
-    <Content Include="Resources\homepage\images\tp2.png" />
-    <Content Include="Resources\homepage\index.html" />
-    <Content Include="Resources\homepage\info.html" />
-    <Content Include="Resources\homepage\js\css3-mediaqueries.js" />
-    <Content Include="Resources\homepage\js\html5.js" />
-    <Content Include="Resources\homepage\style.css" />
-    <Content Include="Resources\homepage\subpage.html" />
-    <Content Include="Resources\homepage\usage.html" />
     <Content Include="Resources\license\Tesseract-OCR\AUTHORS" />
     <Content Include="Resources\license\Tesseract-OCR\LICENSE" />
     <Content Include="Resources\license\Tesseract-OCR\README.md" />
@@ -284,6 +266,7 @@
     <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
     <Content Include="Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\pdf\usage_py.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\cython_modules\out_csv.cp37-win_amd64.pyd" />
