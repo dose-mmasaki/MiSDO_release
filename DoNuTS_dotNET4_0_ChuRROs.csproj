@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\donuts_public_1\DoNuTS_ChuRROs_py37\</PublishUrl>
+    <PublishUrl>F:\DoNuTS_release\cython\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -29,8 +29,8 @@
     <ErrorReportUrl>https://donutsproject.sakura.ne.jp/index.html</ErrorReportUrl>
     <ProductName>DoNuTS</ProductName>
     <PublisherName>MASAKI MATSUMOTO</PublisherName>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>0.5.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>3.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
