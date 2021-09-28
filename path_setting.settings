@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DoNuTS_dotNET4_0" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="メモ帳" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Windows\notepad.exe</Value>
+    </Setting>
+    <Setting Name="Excel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
