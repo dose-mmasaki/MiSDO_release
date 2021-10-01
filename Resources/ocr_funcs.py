@@ -61,8 +61,8 @@ def get_tesseract(is_dev):
     tool = tools[0]
     return tool
 
-
 def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
+    # TODO: digit
     """プロトコル名，ヘッダーの場所を検索する
 
     Args:
@@ -81,6 +81,7 @@ def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
             list
 
     """
+    # 以下のパターンをプロトコル名として認識
     prot_pattern = "(\d\.*)"
     if prot_lang=='jpn':
         header_pattern = "トータル"
@@ -133,6 +134,7 @@ def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
 
 def sepatateImage(croped_np: np.ndarray) -> list:
     """np imageを行ごとに分割する
+        空白行を探し出し、横長に画像を切り出していく。
 
     Args:
         croped_np (np.ndarray): [description]
@@ -203,11 +205,11 @@ def cropImage(img):
     Returns:
         [PIL.Image.Image]: [description]
     """
-    w, h = img.size
-    box = (0, 0, w, h)
-    img = img.crop(box)
+    # 画像と同じサイズの空画像を作成
     bg = Image.new("L", img.size, img.getpixel((0, 0)))
+    # 差分画像を生成
     diff = ImageChops.difference(img, bg)
+    # 背景色との境界を求めて切り抜く. 画像内で値が0でない最小領域を返す
     croprange = diff.convert("L").getbbox()
     crop_img = img.crop(croprange)
 
@@ -246,7 +248,7 @@ def ocr_with_crop(np_img, tool):
 
     blk_list = []  # 空白行を格納する
     # Run for row
-    for i in range(w):
+    for i in range(w): # TODO: 微分
         if dilation_np[:, i].max() == 1:
             blk_list.append(i)
     tmp_list_max = []  # 空白行の最大値を格納
@@ -453,10 +455,15 @@ def get_info_from_prot(prot_dict: dict, header_index: list, separated_img, tool)
 
 
 def ocr(dicomfile, tool, prot_lang, ex_protocol=None):
+    # pydicom >>> np.array に変換
     pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
+    # np.array >>> PIL に変換
     img_org = Image.fromarray(pix_np_array)
-    crop_img = cropImage(img_org)
+    #上下左右をトリミング
+    crop_img = cropImage(img_org) 
+    # PIL >>> np.array　に変換
     crop_np = np.array(crop_img)
+    # 画像を行ごとに分割
     separated_img = sepatateImage(crop_np)
     protocol, header_index = find_protocol_OCR(separated_img, tool, prot_lang)
 

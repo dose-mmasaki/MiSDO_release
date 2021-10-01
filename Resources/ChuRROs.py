@@ -44,10 +44,12 @@ ocr_dict = {
     }
 
 def main(prot_lang: str, is_dev):
+    # 読み取り言語の設定 jpn,eng 以外なら終了
     if prot_lang not in ["jpn", "eng"]:
         print("Incorrect lang")
         sys.exit(0)
     
+    # debug mode
     if is_dev:
         with open("D:\Donuts\git\src\Resources\DefaultProtocol.txt","r", encoding='utf-8') as tf:
             defaultlines = tf.read().split("\n")
@@ -57,32 +59,66 @@ def main(prot_lang: str, is_dev):
             defaultlines = tf.read().split("\n")
     
     
-    
+    # デスクトップのディレクトリパスを取得
     desktop_dir = os.path.expanduser("~") + '/Desktop'
 
+    # tk によって選択されたディレクトリ
     dicom_directory = funcs.select_directory(desktop_dir)
+    # dicom_directory = "D:/Donuts/Data/secondary_capture_data/secondary_capture_data/001" # FIXME:debug
     
+    # 時間計測スタート
     start = time.time()
     
+    """
+    ChuRROｓを実行するために、ユーザーにディレクトリを選択してもらう。
+    前提条件として、検査毎にディレクトリが分かれているとする。
+    (Ex)
+    .DCMは secondary_capture Image
+    path/to/data/
+                ---001/
+                    ---0000001.DCM
+                    ---0000002.DCM
+                    ---0000003.DCM
+                    ---0000004.DCM
+                ---002/
+                    ---0000001.DCM
+                    ---0000002.DCM
+                    ---0000003.DCM
+                    ---0000004.DCM
+    """
+    
+    # dicom_directory 内のdir, file を全て取得
     files = os.listdir(dicom_directory)
+    # files がディレクトリであった場合、ディレクトリ名を取得。ファイルの場合は何もしない。
+    # path/to/data/001,002,003,... >>> 001,002,003
     files_dir = [f for f in files if os.path.isdir(os.path.join(dicom_directory, f))]
     
+    # DBを初期化 (OCR)
     table = 'OCR'
     DATABASE = DataBase.WriteDB(MODALITY=table, is_dev=is_dev)
     
     # OCRエンジン
     tool = ocr_funcs.get_tesseract(is_dev)
     
+    # dicom_directoryが最下層のディレクトリの場合、そのディレクトリをfiles_dirとする
+    # path/to/data/001 >>> 001
     if len(files_dir) == 0:
         split_last = dicom_directory.split('/')[-1]
         dicom_directory = dicom_directory.replace('/'+split_last,'')
         files_dir.append(split_last)
     
+    # OCRを実行したDCMデータ数 InstanceNumber=1のデータはカウントに含めない
     data_cnt = 0
+    # 新規レコード数
     new_data_cnt = 0
+    # 重複レコード数
     duplicate_data_cnt = 0
+    # DB のALL_DATA に書き込むためのリスト
     all_data = []
+    
     for folder in tqdm(files_dir, desc='Now OCR Program Running...') :
+        # 取得する対象のDCMファイルのパスを取得
+        # 以下、path に含まれるDCMのみ読み込む
         path = dicom_directory + "/" + folder + "/**/*.dcm"
         # print(path)
         #データ
@@ -93,31 +129,42 @@ def main(prot_lang: str, is_dev):
                 dicom_path = glob.glob(path)
             except :
                 pass
-        # print(dicom_path)
-        try:
-            dicomfiles = [pydicom.dcmread(p) for p in dicom_path]
-        except :
-            dicomfiles = []
-            pass
-    
-        for f,path in zip(dicomfiles,dicom_path):
-                # pixeldataが存在しない場合はエラーになるため，escapeする
+        # FIXME: 以下のfor文に含める, ignore する
+        else:
             try:
+                dicomfiles = [pydicom.dcmread(p) for p in dicom_path]
+            except :
+                dicomfiles = []
+                pass
+    
+        for f,path in zip(dicomfiles,dicom_path): # FIXME: dicom_path のみで対応する
+            # pixeldataが存在しない場合はエラーになるため，tryで実行する.
+            try:
+                # InstanceNumber を取得. １なら無視をする。
+                # （OCRで読み取りたい情報が存在しないため.(TOSHIBA 製)）
                 i_n = str(f.InstanceNumber)
-                if i_n != "1":
+                if i_n == "1":
+                    pass
+                # 1以外の場合、OCRを実行
+                else:
                     data_cnt += 1
                     try:
+                        # ひとつ前のDCMファイルで読み取ったプロトコル名を取得する
+                        # out_dict = {'A':[],
+                        #             'B':[],
+                        #             'C':[]}   >>> ex_protocol = 'C'
                         ex_protocol = list(out_dict)[-1]
                     except:
+                        # 前回結果がない場合、Noneとする。
                         ex_protocol = None
 
+                    # 読み取ったOCRの結果
                     out_dict, header_index = ocr_funcs.ocr(dicomfile=f,
-                                                tool=tool,
-                                                prot_lang=prot_lang,
-                                                ex_protocol=ex_protocol)
-                    # out_dict = ocr_funcs.replace_and_split(out_dict=out_dict)
+                                                           tool=tool,
+                                                           prot_lang=prot_lang,
+                                                           ex_protocol=ex_protocol)
                     
-                    
+                    # DCMファイル毎の結果を格納する。
                     data = []
                     for i,prot in enumerate(out_dict.keys()):
                         valuelist = out_dict[prot]
@@ -242,7 +289,10 @@ if __name__ == '__main__':
     else:
         is_dev=False
         
-        
+    # # FIXME:debug
+    # is_dev = 'yes'
+    # prot_lang = 'jpn'
+    
 
         
     main(prot_lang=prot_lang, is_dev=is_dev)

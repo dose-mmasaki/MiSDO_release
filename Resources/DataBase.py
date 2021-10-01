@@ -274,8 +274,9 @@ class WriteDB():
             else:
                 txt = ',?'
             t[0] += txt
-        tu = tuple(t)
-        tu = '(' + tu[0] + ')'
+        # tu = tuple(t)
+        # tu = '(' + tu[0] + ')'
+        tu = '(' + t + ')'
         
         
         sql =  "INSERT INTO " + self.MODALITY + " VALUES " + tu
