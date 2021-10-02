@@ -455,13 +455,13 @@ def get_info_from_prot(prot_dict: dict, header_index: list, separated_img, tool)
 
 
 def ocr(dicomfile, tool, prot_lang, ex_protocol=None):
-    # pydicom >>> np.array に変換
+    # pydicom(ndarray;uint16) >>> ndarray;uint8 に変換
     pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
-    # np.array >>> PIL に変換
+    # ndarray;uint8 >>> PIL に変換
     img_org = Image.fromarray(pix_np_array)
     #上下左右をトリミング
     crop_img = cropImage(img_org) 
-    # PIL >>> np.array　に変換
+    # PIL >>> ndarray;uint8　に変換
     crop_np = np.array(crop_img)
     # 画像を行ごとに分割
     separated_img = sepatateImage(crop_np)
