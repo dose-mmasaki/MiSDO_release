@@ -24,6 +24,7 @@ def select_directory(initial_path: str) -> str:
     """
 
     root_select_directory = tk.Tk()
+    root_select_directory.attributes("-topmost", True)
     root_select_directory.withdraw()
     dicom_directory = tk.filedialog.askdirectory(
         initialdir=initial_path, title='DICOMファイルが含まれるフォルダを選択')
