@@ -2,6 +2,8 @@ import difflib
 import glob
 import os
 import re
+import json
+import gc
 
 import Levenshtein
 import numpy as np
@@ -61,8 +63,7 @@ def get_tesseract(is_dev):
     tool = tools[0]
     return tool
 
-def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
-    # TODO: digit
+def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool ,tool=None):
     """プロトコル名，ヘッダーの場所を検索する
 
     Args:
@@ -71,9 +72,11 @@ def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
         prot_lang (str):protocol lang
 
     Returns:
-    protocol
-            dict: {
-                "protocol":n,
+    protocol_list
+            list: {
+                "protocol":n
+                },
+                {
                 "protocol":n
                 }
 
@@ -81,55 +84,135 @@ def find_protocol_OCR(separated_img: np.ndarray, tool, prot_lang: str):
             list
 
     """
-    # 以下のパターンをプロトコル名として認識
-    prot_pattern = "(\d\.*)"
-    if prot_lang=='jpn':
-        header_pattern = "トータル"
-    else:
-        header_pattern = "Total"
-    protocol = {}
     header_index = []
-    # result_list = []
-    for i, s_i in enumerate(separated_img):
-        img_org_sp = Image.fromarray(s_i)
-        img_org_sp_crop = cropImage(img_org_sp)
-        m_5 = 5
-        img_org_sp_crop_margin_5 = add_margin(
-            img_org_sp_crop, m_5, m_5, m_5, m_5)
+    protocol_list = []
+    if use_tesser:
+        # 以下のパターンをプロトコル名として認識
+        prot_pattern = "(\d\.*)"
+        if prot_lang=='jpn':
+            header_pattern = "トータル"
+        else:
+            header_pattern = "Total"
+        # result_list = []
+        for i, s_i in enumerate(separated_img):
+            img_org_sp = Image.fromarray(s_i)
+            img_org_sp_crop = cropImage(img_org_sp)
+            m_5 = 5
+            img_org_sp_crop_margin_5 = add_margin(
+                img_org_sp_crop, m_5, m_5, m_5, m_5)
 
-        m_10 = 10
-        img_org_sp_crop_margin_10 = add_margin(
-            img_org_sp_crop, m_10, m_10, m_10, m_10)
-        # img_org_sp_crop_margin.show()
+            m_10 = 10
+            img_org_sp_crop_margin_10 = add_margin(
+                img_org_sp_crop, m_10, m_10, m_10, m_10)
+            # img_org_sp_crop_margin.show()
 
-        # Assume a single column of text of variable sizes.
-        builder = pyocr.builders.TextBuilder(tesseract_layout=4)
+            # Assume a single column of text of variable sizes.
+            builder = pyocr.builders.TextBuilder(tesseract_layout=4)
 
-        result_5 = tool.image_to_string(
-            img_org_sp_crop_margin_5, lang=prot_lang, builder=builder)
-        result_10 = tool.image_to_string(
-            img_org_sp_crop_margin_10, lang=prot_lang, builder=builder)
+            result_5 = tool.image_to_string(
+                img_org_sp_crop_margin_5, lang=prot_lang, builder=builder)
+            result_10 = tool.image_to_string(
+                img_org_sp_crop_margin_10, lang=prot_lang, builder=builder)
 
-        # print(result)
-        # result_list.append(result)
-        repatter = re.compile(prot_pattern)
-        rst_5 = repatter.match(result_5)
-        rst_10 = repatter.match(result_10)
+            # print(result)
+            # result_list.append(result)
+            repatter = re.compile(prot_pattern)
+            rst_5 = repatter.match(result_5)
+            rst_10 = repatter.match(result_10)
 
-        if (header_pattern in result_5) or (header_pattern in result_10):
-            header_index.append(i)
+            if (header_pattern in result_5) or (header_pattern in result_10):
+                header_index.append(i)
 
-        if not (rst_5 or rst_10) is None:
-            if rst_5 is None:
-                tmp_dict = {str(result_10): i}
-            elif rst_10 is None:
-                tmp_dict = {str(result_5): i}
+            if not (rst_5 or rst_10) is None:
+                if rst_5 is None:
+                    tmp_dict = {str(result_10): i}
+                elif rst_10 is None:
+                    tmp_dict = {str(result_5): i}
 
-            elif not (rst_5 and rst_10) is None:
-                tmp_dict = {str(result_10): i}
-            protocol.update(tmp_dict)
+                elif not (rst_5 and rst_10) is None:
+                    tmp_dict = {str(result_10): i}
+                protocol_list.append(tmp_dict)
 
-    return protocol, header_index
+    else:
+        json_path = "./Resources/PROTOCOL_PROJECTION.json"
+        json_data = open(json_path,mode='r',encoding='utf-8')
+        json_projection_data = json.load(json_data)
+        json_data.close()
+        
+        for i, s_i in enumerate(separated_img):
+            # ndarray >>> PIL
+            img_org_sp = Image.fromarray(s_i)
+            # crop image
+            img_org_sp_crop = cropImage(img_org_sp)
+            # PIL >>> ndarray
+            np_img = np.array(img_org_sp_crop)
+            
+            # Convert 1 >> 0, 255 >> 1
+            np_img = np.where(np_img==1, 0, 1)
+            # 縦方向にデータを加算する
+            np_sum = np_img.sum(axis=0)
+            # array >>> list
+            np_sum_list = list(np_sum)
+            
+            projection_str = ''
+            for sum in np_sum_list:
+                projection_str += str(sum)
+            
+            
+            """
+            projection_str = "1.ABC"
+            scanName1 = "AB"
+            scanName2 = "ABC"
+            のとき、scanName2が正解であるはずだが、for文を回したときに、
+            scanName1が先に取得され、正解だと判定されてしまう。
+            そこで、正解の候補をcandidate_protocolに格納し、最後に類似度で判定する。
+            """
+                    
+            candidate_protocol = []
+            
+            # jsonに登録されているデータと読み取った結果を照合する
+            for key in json_projection_data[0]:
+                value = json_projection_data[0][key]
+                
+                # dose header (トータルMAS, 照射時間,,,)
+                if (value in projection_str) and key=="dose_header":
+                    header_index.append(i)
+                
+                # 登録されているプロトコル名とマッチした場合
+                elif value in projection_str: #FIXME: protocol
+                    tmp_dict = {key: i}
+                    candidate_protocol.append(tmp_dict)
+                    
+                else:
+                    pass
+            
+            # candidate_protocol が空のとき、エラーになるため、except
+            try:
+                # Levenshtein distance
+                def calc_dist(candidate_Scanname):
+                    scanname = [k for k in candidate_Scanname.keys()][0]
+                    # projectiondataを取り出す
+                    default = json_projection_data[0][scanname]
+                    # 距離を求める
+                    lev_dist = Levenshtein.distance(projection_str, default)
+                    devider = len(projection_str) if len(projection_str) > len(default) else len(default)
+                    lev_dist = lev_dist / devider
+                    lev_dist = 1 - lev_dist
+                    return lev_dist
+                
+                # candidate_protocol から距離をそれぞれ求める
+                dist = list(map(calc_dist, candidate_protocol))
+                # index を返す
+                lev_index = dist.index(max(dist))
+                # プロトコル名を返す
+                resultProtocol = candidate_protocol[lev_index]
+                protocol_list.append(resultProtocol)
+            except Exception as e:
+                # print(e)
+                pass
+            
+        
+    return protocol_list, header_index
 
 
 def sepatateImage(croped_np: np.ndarray) -> list:
@@ -217,7 +300,8 @@ def cropImage(img):
 
 
 def ocr_with_crop(np_img, tool):
-    """Get np_image and return text from Tesseract
+    """ScanName, 線量情報をOCRで読み取る。
+    tool=None のときはProjectionデータから、そうでないときはTesseractから読み取る.
 
     Args:
         np_img ([type]): [description]
@@ -294,15 +378,60 @@ def ocr_with_crop(np_img, tool):
     for i, img in enumerate(separated_img):
         # ScanName
         if i == 0:
-            img_org_sp = Image.fromarray(img)
-            img_org_sp_crop = cropImage(img_org_sp)
-            img_org_sp_crop_margin = add_margin(img_org_sp_crop, 5, 5, 5, 5)
-            # Call Tesseract
-            builder_DoseInfo = pyocr.builders.TextBuilder(tesseract_layout=4)
-            builder_DoseInfo.tesseract_configs.append("digits")
-            scanName = tool.image_to_string(
-                img_org_sp_crop_margin, lang="eng", builder=builder_DoseInfo)
-            result_list.append(scanName)
+            if tool!=None:
+                img_org_sp = Image.fromarray(img)
+                img_org_sp_crop = cropImage(img_org_sp)
+                img_org_sp_crop_margin = add_margin(img_org_sp_crop, 5, 5, 5, 5)
+                # Call Tesseract
+                builder_DoseInfo = pyocr.builders.TextBuilder(tesseract_layout=4)
+                builder_DoseInfo.tesseract_configs.append("digits")
+                scanName = tool.image_to_string(
+                    img_org_sp_crop_margin, lang="eng", builder=builder_DoseInfo)
+                result_list.append(scanName)
+            else:
+                # TODO: ScannameのProjection dataを作成する
+                # jsonを読み込み
+                json_path = "./Resources/SCANNAME_PROJECTION.json"
+                json_data = open(json_path,mode='r',encoding='utf-8')
+                json_projection_data = json.load(json_data)
+                json_data.close()
+                
+                
+                for i, s_i in enumerate(separated_img):
+                    # ndarray >>> PIL
+                    img_org_sp = Image.fromarray(s_i)
+                    # crop image
+                    img_org_sp_crop = cropImage(img_org_sp)
+                    # PIL >>> ndarray
+                    np_img = np.array(img_org_sp_crop)
+                    
+                    # Convert 1 >> 0, 255 >> 1
+                    np_img = np.where(np_img==1, 0, 1)
+                    # 縦方向にデータを加算する
+                    np_sum = np_img.sum(axis=0)
+                    # array >>> list
+                    np_sum_list = list(np_sum)
+                    
+                    # 読み取った結果を羅列する.
+                    projection_str = ''
+                    for sum in np_sum_list:
+                        projection_str += str(sum)
+                    
+                    
+                    # jsonに登録されているデータと読み取った結果を照合する
+                    for scanName in json_projection_data[0]:
+                        value = json_projection_data[0][scanName]
+                        
+                        # 登録されているプロトコル名とマッチした場合
+                        if value in projection_str:
+                            result_list.append(scanName)
+                            
+                        else:
+                            pass
+                    
+                    
+                    
+        # 数値情報
         else:
             # Identification Digits or Letters
             returned_digits = read_digits(img)
@@ -389,44 +518,52 @@ def read_digits(np_img) -> str:
     return result_digit
 
 
-def get_info_from_prot(prot_dict: dict, header_index: list, separated_img, tool):
+def get_info_from_prot(protocol_list: list, header_index: list, separated_img, tool):
     """[summary]
 
     Args:
-        prot_dict (dict): protocol
+        protocol_list (list): {"protocol":index},{},{},...
         header_index (list) : header index
         separated_img (list): [description]
         tool (module): [description]
 
-    Returns:
-        [dict]: {
-            "protocol":[Dose Info],
-            "protocol":[Dose Info],
-            "protocol":[Dose Info]
-        }
+    out_list:
+        [list]: [
+            {"protocol":[Dose Info]},
+            {"protocol":[Dose Info]},
+            {"protocol":[Dose Info]}
+            ]
     """
-    out_dict = {}
+    out_list = []
 
-    prot_index = []  # protocol名が位置するindexの値
+    index_of_all_protocol = []  # protocol名が位置するindexの値
+    
+    # プロトコル名を目印に読み取る場所を確定するため、全てのプロトコルの場所を格納する
+    for prot_dict in protocol_list:
+        # index を取り出す
+        idx = [i for i in prot_dict.values()][0]
+        index_of_all_protocol.append(idx)
+        
 
-    for pro in prot_dict.keys():
-        i = prot_dict[pro]
-        prot_index.append(i)
+    # for pro in prot_dict.keys():
+    #     i = prot_dict[pro]
+    #     prot_index.append(i)
 
-    for i, key in enumerate(prot_dict.keys()):
-        p = prot_index[i]
+    for i, protocol_dict in enumerate(protocol_list):
+        key = [k for k in protocol_dict.keys()][0]
+        p = index_of_all_protocol[i]
         dose_list = []
 
         if p != 'ex_protocol':
             try:
                 start = p + 2
-                end = prot_index[i+1]
+                end = index_of_all_protocol[i+1]
                 for d in range(end-start):
                     re_read_img = separated_img[start + d]
                     result = ocr_with_crop(re_read_img, tool)
                     dose_list.append(result)
 
-            except:
+            except Exception as e:
                 start = p + 2
                 end = len(separated_img)
 
@@ -449,12 +586,12 @@ def get_info_from_prot(prot_dict: dict, header_index: list, separated_img, tool)
                 pass
 
         tmp_dict = {key: dose_list}
-        out_dict.update(tmp_dict)
+        out_list.append(tmp_dict)
 
-    return out_dict
+    return out_list
 
 
-def ocr(dicomfile, tool, prot_lang, ex_protocol=None):
+def ocr(dicomfile, prot_lang, use_tesser, tool=None, ex_protocol=None):
     # pydicom(ndarray;uint16) >>> ndarray;uint8 に変換
     pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
     # ndarray;uint8 >>> PIL に変換
@@ -465,13 +602,13 @@ def ocr(dicomfile, tool, prot_lang, ex_protocol=None):
     crop_np = np.array(crop_img)
     # 画像を行ごとに分割
     separated_img = sepatateImage(crop_np)
-    protocol, header_index = find_protocol_OCR(separated_img, tool, prot_lang)
+    protocol_list, header_index = find_protocol_OCR(separated_img, prot_lang, use_tesser, tool=tool)
 
-    if (protocol == {}) and (ex_protocol != None):
-        protocol = {ex_protocol: "ex_protocol"}
+    if (len(protocol_list)==0) and (ex_protocol != None):
+        protocol_list = [{ex_protocol: "ex_protocol"}]
 
-    out_dict = get_info_from_prot(protocol, header_index, separated_img, tool)
-    return out_dict, header_index
+    out_list = get_info_from_prot(protocol_list, header_index, separated_img, tool)
+    return out_list, header_index
 
 
 def replace_and_split(out_dict: dict) -> dict:
@@ -545,7 +682,8 @@ def calc_Levenshtein(str1: str, default_list: list) -> tuple:
         map(lambda x: (x[0]**2+x[1]**2+x[2]**2+x[3]**2)**0.5, dist))
     lev_index = dist_point.index(max(dist_point))
 
-    d_protocol = str1[:2] + default_list[lev_index]  # プロトコル番号 n. を表示する場合
+    # d_protocol = str1[:2] + default_list[lev_index]  # プロトコル番号 n. を表示する場合
+    d_protocol = default_list[lev_index]  # プロトコル番号 n. を表示しない
 
     # d_protocol = default_list[lev_index] #プロトコル名のみ
 
