@@ -328,10 +328,10 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # FIXME:debug
-    is_dev = 'yes'
-    prot_lang = 'jpn'
-    use_tesser = True
+    # # FIXME:debug
+    # is_dev = 'yes'
+    # prot_lang = 'jpn'
+    # use_tesser = True
 
     main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser)
 
