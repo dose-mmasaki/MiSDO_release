@@ -17,6 +17,7 @@
 胸部 縦郭7mm 肺野3mm
 肝ダイナミック vol+Cor (RP) 1-27-3
 腹部 3mm
+腹部 7mm
 腹部 3mm(Copied)
 腰椎 vol 0.5-53-3
 上肢 0.5-53-3 120kV VEC
