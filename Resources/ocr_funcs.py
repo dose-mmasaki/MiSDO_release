@@ -375,11 +375,11 @@ def ocr_with_crop(np_img, tool):
     except:
         pass
 
-    for i, img in enumerate(separated_img):
+    for i, s_i in enumerate(separated_img):
         # ScanName
         if i == 0:
             if tool!=None:
-                img_org_sp = Image.fromarray(img)
+                img_org_sp = Image.fromarray(s_i)
                 img_org_sp_crop = cropImage(img_org_sp)
                 img_org_sp_crop_margin = add_margin(img_org_sp_crop, 5, 5, 5, 5)
                 # Call Tesseract
@@ -396,51 +396,58 @@ def ocr_with_crop(np_img, tool):
                 json_projection_data = json.load(json_data)
                 json_data.close()
                 
+
+                # ndarray >>> PIL
+                img_org_sp = Image.fromarray(s_i)
+                # crop image
+                img_org_sp_crop = cropImage(img_org_sp)
+                # PIL >>> ndarray
+                np_img = np.array(img_org_sp_crop)
                 
-                for i, s_i in enumerate(separated_img):
-                    # ndarray >>> PIL
-                    img_org_sp = Image.fromarray(s_i)
-                    # crop image
-                    img_org_sp_crop = cropImage(img_org_sp)
-                    # PIL >>> ndarray
-                    np_img = np.array(img_org_sp_crop)
+                # Convert 1 >> 0, 255 >> 1
+                np_img = np.where(np_img==1, 0, 1)
+                # 縦方向にデータを加算する
+                np_sum = np_img.sum(axis=0)
+                # array >>> list
+                np_sum_list = list(np_sum)
+                
+                # 読み取った結果を羅列する.
+                projection_str = ''
+                for sum in np_sum_list:
+                    projection_str += str(sum)
+                
+                
+                # jsonに登録されているデータと読み取った結果を照合する
+                for scanName in json_projection_data[0]:
+                    value = json_projection_data[0][scanName]
                     
-                    # Convert 1 >> 0, 255 >> 1
-                    np_img = np.where(np_img==1, 0, 1)
-                    # 縦方向にデータを加算する
-                    np_sum = np_img.sum(axis=0)
-                    # array >>> list
-                    np_sum_list = list(np_sum)
-                    
-                    # 読み取った結果を羅列する.
-                    projection_str = ''
-                    for sum in np_sum_list:
-                        projection_str += str(sum)
-                    
-                    
-                    # jsonに登録されているデータと読み取った結果を照合する
-                    for scanName in json_projection_data[0]:
-                        value = json_projection_data[0][scanName]
-                        
-                        # 登録されているプロトコル名とマッチした場合
-                        if value in projection_str:
-                            result_list.append(scanName)
-                            
-                        else:
-                            pass
-                    
+                    # 登録されているプロトコル名とマッチした場合
+                    if value in projection_str:
+                        result_list.append(scanName)
+                        break
+                    else:
+                        pass
+                
                     
                     
         # 数値情報
         else:
             # Identification Digits or Letters
-            returned_digits = read_digits(img)
+            returned_digits = read_digits(s_i)
             result_list.append(returned_digits)
 
     return result_list
 
 
 def read_digits(np_img) -> str:
+    """分割されたndarrayの画像情報から数値をOCRで取得する。
+
+    Args:
+        np_img ([ndarray]): [description]
+
+    Returns:
+        result_digit: [str]
+    """    
     # np >> PIL
     img_org_sp = Image.fromarray(np_img)
     # Crop
@@ -549,6 +556,7 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
     #     i = prot_dict[pro]
     #     prot_index.append(i)
 
+    # 取得したプロトコル名、ScanName　の場所を目印に、線量情報を読み取る
     for i, protocol_dict in enumerate(protocol_list):
         key = [k for k in protocol_dict.keys()][0]
         p = index_of_all_protocol[i]
@@ -556,6 +564,7 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
 
         if p != 'ex_protocol':
             try:
+                # プロトコル名が２つ以上あつとき、２つ目のプロトコル名がある位置の直前まで読み取る
                 start = p + 2
                 end = index_of_all_protocol[i+1]
                 for d in range(end-start):
@@ -564,6 +573,7 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
                     dose_list.append(result)
 
             except Exception as e:
+                # 画像上、最後のプロトコをOCRするとき、、最後の行までまで読み取る
                 start = p + 2
                 end = len(separated_img)
 
@@ -576,7 +586,10 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
         else:
             try:
                 start = header_index[0] + 1
-                end = len(separated_img)
+                try:
+                    end = index_of_all_protocol[i+1]
+                except :
+                    end = len(separated_img)
 
                 for d in range(end-start):
                     re_read_img = separated_img[start + d]
@@ -604,8 +617,9 @@ def ocr(dicomfile, prot_lang, use_tesser, tool=None, ex_protocol=None):
     separated_img = sepatateImage(crop_np)
     protocol_list, header_index = find_protocol_OCR(separated_img, prot_lang, use_tesser, tool=tool)
 
-    if (len(protocol_list)==0) and (ex_protocol != None):
-        protocol_list = [{ex_protocol: "ex_protocol"}]
+    if (len(protocol_list) < len(header_index)):
+        insert_ex_protocol = {ex_protocol: "ex_protocol"}
+        protocol_list.insert(0, insert_ex_protocol)
 
     out_list = get_info_from_prot(protocol_list, header_index, separated_img, tool)
     return out_list, header_index
