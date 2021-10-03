@@ -276,7 +276,7 @@ class WriteDB():
             t[0] += txt
         # tu = tuple(t)
         # tu = '(' + tu[0] + ')'
-        tu = '(' + t + ')'
+        tu = '(' + t[0] + ')'
         
         
         sql =  "INSERT INTO " + self.MODALITY + " VALUES " + tu
