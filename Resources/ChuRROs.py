@@ -15,8 +15,9 @@ import pprint
 import gc
 
 import pydicom
-from PIL import Image, ImageChops
+# from PIL import Image, ImageChops
 from tqdm import tqdm
+import numpy as np
 
 import DataBase
 import donuts_datasets
@@ -132,7 +133,7 @@ def main(prot_lang: str, is_dev, use_tesser):
         pass
 
     # DBを初期化 (OCR)
-    DATABASE = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
+    DATABASE_OCR = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
 
     # OCRを実行したDCMデータ数 InstanceNumber=1のデータはカウントに含めない
     data_cnt = 0
@@ -171,27 +172,38 @@ def main(prot_lang: str, is_dev, use_tesser):
                 # InstanceNumber を取得. １なら無視をする。
                 # （OCRで読み取りたい情報が存在しないため.(TOSHIBA 製)）
                 i_n = str(dicomfile.InstanceNumber)
+                pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
+            except:
+                # ignore : pixel_arrayが存在しないとき
+                pass
+
+            # 予期せぬ例外を拾う
+            try:
                 if i_n == "1":
                     pass
+
                 # 1以外の場合、OCRを実行
                 else:
                     data_cnt += 1
                     try:
-                        # ひとつ前のDCMファイルで読み取ったプロトコル名を取得する
-                        # out_dict = {'A':[],
-                        #             'B':[],
-                        #             'C':[]}   >>> ex_protocol = 'C'
-                        ex_protocol = list(out_dict)[-1]
+                        """
+                            ひとつ前のDCMファイルで読み取ったプロトコル名を取得する
+                            out_list = [{'A':[]},
+                                        {'B':[]},
+                                        {'C':[]}]
+                                        >>> ex_protocol = 'C'
+                        """
+                        ex_protocol = [k for k in out_list[-1].keys()][0]
                     except:
                         # 前回結果がない場合、Noneとする。
                         ex_protocol = None
 
                     # 読み取ったOCRの結果
-                    out_list, header_index = ocr_funcs.ocr(dicomfile=dicomfile,
-                                                           prot_lang=prot_lang,
-                                                           ex_protocol=ex_protocol,
-                                                           use_tesser=use_tesser,
-                                                           tool=tool)
+                    out_list = ocr_funcs.ocr(np_img=pix_np_array,
+                                             prot_lang=prot_lang,
+                                             ex_protocol=ex_protocol,
+                                             use_tesser=use_tesser,
+                                             tool=tool)
 
                     # DCMファイル毎の結果を格納する。
                     data = []
@@ -271,22 +283,23 @@ def main(prot_lang: str, is_dev, use_tesser):
                     for d in data:
                         try:
                             write_list = [v for v in d.values()]
-                            DATABASE.main(data=write_list)
+                            DATABASE_OCR.main(data=write_list)
                             new_data_cnt += 1
                         except Exception as e:
                             # print(e)
                             duplicate_data_cnt += 1
                             pass
             except Exception as e:
-                print(e)
+                print("予期せぬ例外:{}".format(e))
 
-    DATABASE.close()
+    DATABASE_OCR.close()
 
     print("Writting to DB ...")
 
     # ALL_DATA table に書き込む
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
-    DATABASE = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=is_dev)
+    print(sys.getsizeof(all_dict))
+    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=is_dev)
     for each_data in all_data:
 
         # all_dict のvalueを空にする
@@ -298,15 +311,15 @@ def main(prot_lang: str, is_dev, use_tesser):
 
             # to DB
             write_list = [v for v in all_dict.values()]
-            DATABASE.main(data=write_list)
+            DATABASE_ALL.main(data=write_list)
         except Exception as e:
             assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
             pass
-    DATABASE.close()
+    DATABASE_ALL.close()
 
     end = time.time()
 
-    print("Processing time : {} seconds".format(int(end-start)))
+    print("Processing time : {:.2f} seconds".format(float(end-start)))
     print("New {} records, duplicated {} records".format(
         new_data_cnt, duplicate_data_cnt))
     print("OCR done {} Captured files．".format(data_cnt))

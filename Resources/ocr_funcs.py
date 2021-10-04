@@ -63,7 +63,8 @@ def get_tesseract(is_dev):
     tool = tools[0]
     return tool
 
-def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool ,tool=None):
+
+def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser: bool, tool=None):
     """プロトコル名，ヘッダーの場所を検索する
 
     Args:
@@ -89,7 +90,7 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
     if use_tesser:
         # 以下のパターンをプロトコル名として認識
         prot_pattern = "(\d\.*)"
-        if prot_lang=='jpn':
+        if prot_lang == 'jpn':
             header_pattern = "トータル"
         else:
             header_pattern = "Total"
@@ -135,10 +136,10 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
 
     else:
         json_path = "./Resources/PROTOCOL_PROJECTION.json"
-        json_data = open(json_path,mode='r',encoding='utf-8')
+        json_data = open(json_path, mode='r', encoding='utf-8')
         json_projection_data = json.load(json_data)
         json_data.close()
-        
+
         for i, s_i in enumerate(separated_img):
             # ndarray >>> PIL
             img_org_sp = Image.fromarray(s_i)
@@ -146,19 +147,18 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
             img_org_sp_crop = cropImage(img_org_sp)
             # PIL >>> ndarray
             np_img = np.array(img_org_sp_crop)
-            
+
             # Convert 1 >> 0, 255 >> 1
-            np_img = np.where(np_img==1, 0, 1)
+            np_img = np.where(np_img == 1, 0, 1)
             # 縦方向にデータを加算する
             np_sum = np_img.sum(axis=0)
             # array >>> list
             np_sum_list = list(np_sum)
-            
+
             projection_str = ''
             for sum in np_sum_list:
                 projection_str += str(sum)
-            
-            
+
             """
             projection_str = "1.ABC"
             scanName1 = "AB"
@@ -167,25 +167,25 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
             scanName1が先に取得され、正解だと判定されてしまう。
             そこで、正解の候補をcandidate_protocolに格納し、最後に類似度で判定する。
             """
-                    
+
             candidate_protocol = []
-            
+
             # jsonに登録されているデータと読み取った結果を照合する
             for key in json_projection_data[0]:
                 value = json_projection_data[0][key]
-                
+
                 # dose header (トータルMAS, 照射時間,,,)
-                if (value in projection_str) and key=="dose_header":
+                if (value in projection_str) and key == "dose_header":
                     header_index.append(i)
-                
+
                 # 登録されているプロトコル名とマッチした場合
-                elif value in projection_str: #FIXME: protocol
+                elif value in projection_str:  # FIXME: protocol
                     tmp_dict = {key: i}
                     candidate_protocol.append(tmp_dict)
-                    
+
                 else:
                     pass
-            
+
             # candidate_protocol が空のとき、エラーになるため、except
             try:
                 # Levenshtein distance
@@ -195,11 +195,12 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
                     default = json_projection_data[0][scanname]
                     # 距離を求める
                     lev_dist = Levenshtein.distance(projection_str, default)
-                    devider = len(projection_str) if len(projection_str) > len(default) else len(default)
+                    devider = len(projection_str) if len(
+                        projection_str) > len(default) else len(default)
                     lev_dist = lev_dist / devider
                     lev_dist = 1 - lev_dist
                     return lev_dist
-                
+
                 # candidate_protocol から距離をそれぞれ求める
                 dist = list(map(calc_dist, candidate_protocol))
                 # index を返す
@@ -210,12 +211,11 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser:bool
             except Exception as e:
                 # print(e)
                 pass
-            
-        
+
     return protocol_list, header_index
 
 
-def sepatateImage(croped_np: np.ndarray) -> list:
+def separateImage(croped_np: np.ndarray) -> list:
     """np imageを行ごとに分割する
         空白行を探し出し、横長に画像を切り出していく。
 
@@ -332,7 +332,7 @@ def ocr_with_crop(np_img, tool):
 
     blk_list = []  # 空白行を格納する
     # Run for row
-    for i in range(w): # TODO: 微分
+    for i in range(w):  # TODO: 微分
         if dilation_np[:, i].max() == 1:
             blk_list.append(i)
     tmp_list_max = []  # 空白行の最大値を格納
@@ -378,12 +378,14 @@ def ocr_with_crop(np_img, tool):
     for i, s_i in enumerate(separated_img):
         # ScanName
         if i == 0:
-            if tool!=None:
+            if tool != None:
                 img_org_sp = Image.fromarray(s_i)
                 img_org_sp_crop = cropImage(img_org_sp)
-                img_org_sp_crop_margin = add_margin(img_org_sp_crop, 5, 5, 5, 5)
+                img_org_sp_crop_margin = add_margin(
+                    img_org_sp_crop, 5, 5, 5, 5)
                 # Call Tesseract
-                builder_DoseInfo = pyocr.builders.TextBuilder(tesseract_layout=4)
+                builder_DoseInfo = pyocr.builders.TextBuilder(
+                    tesseract_layout=4)
                 builder_DoseInfo.tesseract_configs.append("digits")
                 scanName = tool.image_to_string(
                     img_org_sp_crop_margin, lang="eng", builder=builder_DoseInfo)
@@ -392,10 +394,9 @@ def ocr_with_crop(np_img, tool):
                 # TODO: ScannameのProjection dataを作成する
                 # jsonを読み込み
                 json_path = "./Resources/SCANNAME_PROJECTION.json"
-                json_data = open(json_path,mode='r',encoding='utf-8')
+                json_data = open(json_path, mode='r', encoding='utf-8')
                 json_projection_data = json.load(json_data)
                 json_data.close()
-                
 
                 # ndarray >>> PIL
                 img_org_sp = Image.fromarray(s_i)
@@ -403,33 +404,30 @@ def ocr_with_crop(np_img, tool):
                 img_org_sp_crop = cropImage(img_org_sp)
                 # PIL >>> ndarray
                 np_img = np.array(img_org_sp_crop)
-                
+
                 # Convert 1 >> 0, 255 >> 1
-                np_img = np.where(np_img==1, 0, 1)
+                np_img = np.where(np_img == 1, 0, 1)
                 # 縦方向にデータを加算する
                 np_sum = np_img.sum(axis=0)
                 # array >>> list
                 np_sum_list = list(np_sum)
-                
+
                 # 読み取った結果を羅列する.
                 projection_str = ''
                 for sum in np_sum_list:
                     projection_str += str(sum)
-                
-                
+
                 # jsonに登録されているデータと読み取った結果を照合する
                 for scanName in json_projection_data[0]:
                     value = json_projection_data[0][scanName]
-                    
+
                     # 登録されているプロトコル名とマッチした場合
                     if value in projection_str:
                         result_list.append(scanName)
                         break
                     else:
                         pass
-                
-                    
-                    
+
         # 数値情報
         else:
             # Identification Digits or Letters
@@ -447,7 +445,7 @@ def read_digits(np_img) -> str:
 
     Returns:
         result_digit: [str]
-    """    
+    """
     # np >> PIL
     img_org_sp = Image.fromarray(np_img)
     # Crop
@@ -544,13 +542,12 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
     out_list = []
 
     index_of_all_protocol = []  # protocol名が位置するindexの値
-    
+
     # プロトコル名を目印に読み取る場所を確定するため、全てのプロトコルの場所を格納する
     for prot_dict in protocol_list:
         # index を取り出す
         idx = [i for i in prot_dict.values()][0]
         index_of_all_protocol.append(idx)
-        
 
     # for pro in prot_dict.keys():
     #     i = prot_dict[pro]
@@ -562,7 +559,7 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
         p = index_of_all_protocol[i]
         dose_list = []
 
-        if p != 'ex_protocol':
+        if p != 999:
             try:
                 # プロトコル名が２つ以上あつとき、２つ目のプロトコル名がある位置の直前まで読み取る
                 start = p + 2
@@ -588,7 +585,7 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
                 start = header_index[0] + 1
                 try:
                     end = index_of_all_protocol[i+1]
-                except :
+                except:
                     end = len(separated_img)
 
                 for d in range(end-start):
@@ -604,25 +601,46 @@ def get_info_from_prot(protocol_list: list, header_index: list, separated_img, t
     return out_list
 
 
-def ocr(dicomfile, prot_lang, use_tesser, tool=None, ex_protocol=None):
-    # pydicom(ndarray;uint16) >>> ndarray;uint8 に変換
-    pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
+def ocr(np_img: np.ndarray, prot_lang: str, use_tesser: bool, tool=None, ex_protocol=None) -> list:
+    """[summary]
+
+    Args:
+        np_img (np.ndarray): DICOMの画像データをndarrayに変換したもの
+        prot_lang (str): プロトコルの言語(Tesseractを使用しない場合には不要)
+        use_tesser (bool): Tesseract仕様の有無
+        tool : Tesseractエンジン. Defaults to None.
+        ex_protocol : ひとつ前の結果のプロトコル名. Defaults to None.
+
+    Returns:
+        out_list(list): [
+            {'protocol':[data]},
+            {'protocol':[data]}
+            ]
+    """
     # ndarray;uint8 >>> PIL に変換
-    img_org = Image.fromarray(pix_np_array)
-    #上下左右をトリミング
-    crop_img = cropImage(img_org) 
+    img_org = Image.fromarray(np_img)
+    # 上下左右をトリミング
+    crop_img = cropImage(img_org)
     # PIL >>> ndarray;uint8　に変換
     crop_np = np.array(crop_img)
     # 画像を行ごとに分割
-    separated_img = sepatateImage(crop_np)
-    protocol_list, header_index = find_protocol_OCR(separated_img, prot_lang, use_tesser, tool=tool)
+    separated_img = separateImage(crop_np)
 
-    if (len(protocol_list) < len(header_index)):
-        insert_ex_protocol = {ex_protocol: "ex_protocol"}
+    del np_img, img_org, crop_np
+    gc.collect()
+
+    protocol_list, header_index = find_protocol_OCR(
+        separated_img, prot_lang, use_tesser, tool=tool)
+
+    if (len(protocol_list) < len(header_index)) and ex_protocol != None:
+        insert_ex_protocol = {ex_protocol: 999}
         protocol_list.insert(0, insert_ex_protocol)
+    else:
+        pass
 
-    out_list = get_info_from_prot(protocol_list, header_index, separated_img, tool)
-    return out_list, header_index
+    out_list = get_info_from_prot(
+        protocol_list, header_index, separated_img, tool)
+    return out_list
 
 
 def replace_and_split(out_dict: dict) -> dict:
