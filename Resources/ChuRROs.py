@@ -113,12 +113,9 @@ def main(prot_lang: str, is_dev, use_tesser):
     # path/to/data/001,002,003,... >>> 001,002,003
     files_dir = [f for f in files if os.path.isdir(
         os.path.join(dicom_directory, f))]
-    
+
     del files, desktop_dir
     gc.collect()
-
-
-
 
     # dicom_directoryが最下層のディレクトリの場合、そのディレクトリをfiles_dirとする
     # path/to/data/001 >>> 001
@@ -133,7 +130,7 @@ def main(prot_lang: str, is_dev, use_tesser):
     else:
         tool = None
         pass
-    
+
     # DBを初期化 (OCR)
     DATABASE = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
 
@@ -145,8 +142,6 @@ def main(prot_lang: str, is_dev, use_tesser):
     duplicate_data_cnt = 0
     # DB のALL_DATA に書き込むためのリスト
     all_data = []
-    
-    
 
     for folder in tqdm(files_dir, desc='Now OCR Program Running...'):
         # 取得する対象のDCMファイルのパスを取得
@@ -165,7 +160,7 @@ def main(prot_lang: str, is_dev, use_tesser):
                 sys.exit()
         else:
             pass
-        
+
         del path
         gc.collect()
 
@@ -237,7 +232,8 @@ def main(prot_lang: str, is_dev, use_tesser):
 
                                 else:
                                     try:
-                                        header_info = str(getattr(dicomfile, h_key))
+                                        header_info = str(
+                                            getattr(dicomfile, h_key))
                                         temp_dict = {h_key: header_info}
                                         temp_data_dict.update(temp_dict)
                                     except:
