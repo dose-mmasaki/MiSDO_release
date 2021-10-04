@@ -16,6 +16,7 @@ namespace DoNuTS_dotNET4_0
             InitializeComponent();
         }
         public string language = "";
+        public string use_tesser = "";
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -43,5 +44,76 @@ namespace DoNuTS_dotNET4_0
             return;
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            foreach (RadioButton rb1 in LangBox.Controls)
+            {
+                if (rb1.Checked)
+                {
+                    language = rb1.Text.ToLower();
+                    break;
+                }
+            }
+
+            foreach (RadioButton rb2 in TesserBox.Controls)
+            {
+                if (rb2.Checked)
+                {
+                    use_tesser = rb2.Text.ToLower();
+                    break;
+                }
+            }
+            Close();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

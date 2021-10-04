@@ -17,7 +17,6 @@ import tkinter
 from tkinter import filedialog, messagebox
 
 import numpy as np
-import pyautogui  # 外部ライブラリ
 import pydicom
 from PIL import Image, ImageChops, ImageTk  # 外部ライブラリ
 

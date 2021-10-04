@@ -88,9 +88,9 @@ namespace DoNuTS_dotNET4_0
             {
                 string str_to_churros = @".\Resources\ChuRROs.py";
                 // 引数を代入
-                string lang = "--lang " + frm.language;
+                string args = "--lang " + frm.language + " --tesser " + frm.use_tesser;
 
-                string startChuRRos = "call " + py37 + " " + str_to_churros + " " + lang;
+                string startChuRRos = "call " + py37 + " " + str_to_churros + " " + args;
 
 
                 Process p = new Process();
@@ -514,6 +514,61 @@ namespace DoNuTS_dotNET4_0
         private void usageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(@".\Resources\doc\usage_py.pdf");
+        }
+
+        private void tesseractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void defaultProtocolToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\DefaultProtocol.txt");
+        }
+
+        private void scanNameToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
+        }
+
+
+        private void runMakeProjection(string target)
+        {
+            string str_to_make_projection = @".\Resources\make_projection_data.py";
+            // 引数を代入
+            string arg = "--projection " + target;
+
+            string start_make_projection = "call " + py37 + " " + str_to_make_projection + " " + arg;
+
+            Process p = new Process();
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
+
+            p.StartInfo = info;
+            p.Start();
+
+            using (StreamWriter sw = p.StandardInput)
+            {
+                sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                sw.WriteLine(start_make_projection);
+            }
+            p.WaitForExit();
+        }
+
+        private void defaultProtocolToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string target = "PROTOCOL";
+            runMakeProjection(target);
+        }
+
+        private void scanNameToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string target = "SCANNAME";
+            runMakeProjection(target);
         }
     }
 }
