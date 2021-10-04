@@ -12,6 +12,7 @@ import os
 import sys
 import time
 import pprint
+import gc
 
 import pydicom
 from PIL import Image, ImageChops
@@ -112,17 +113,12 @@ def main(prot_lang: str, is_dev, use_tesser):
     # path/to/data/001,002,003,... >>> 001,002,003
     files_dir = [f for f in files if os.path.isdir(
         os.path.join(dicom_directory, f))]
+    
+    del files, desktop_dir
+    gc.collect()
 
-    # DBを初期化 (OCR)
-    table = 'OCR'
-    DATABASE = DataBase.WriteDB(MODALITY=table, is_dev=is_dev)
 
-    if use_tesser:
-        # OCRエンジン
-        tool = ocr_funcs.get_tesseract(is_dev)
-    else:
-        tool = None
-        pass
+
 
     # dicom_directoryが最下層のディレクトリの場合、そのディレクトリをfiles_dirとする
     # path/to/data/001 >>> 001
@@ -130,6 +126,16 @@ def main(prot_lang: str, is_dev, use_tesser):
         split_last = dicom_directory.split('/')[-1]
         dicom_directory = dicom_directory.replace('/'+split_last, '')
         files_dir.append(split_last)
+
+    if use_tesser:
+        # OCRエンジン
+        tool = ocr_funcs.get_tesseract(is_dev)
+    else:
+        tool = None
+        pass
+    
+    # DBを初期化 (OCR)
+    DATABASE = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
 
     # OCRを実行したDCMデータ数 InstanceNumber=1のデータはカウントに含めない
     data_cnt = 0
@@ -139,6 +145,8 @@ def main(prot_lang: str, is_dev, use_tesser):
     duplicate_data_cnt = 0
     # DB のALL_DATA に書き込むためのリスト
     all_data = []
+    
+    
 
     for folder in tqdm(files_dir, desc='Now OCR Program Running...'):
         # 取得する対象のDCMファイルのパスを取得
@@ -151,22 +159,23 @@ def main(prot_lang: str, is_dev, use_tesser):
             try:
                 path = dicom_directory + "/" + folder + "/*.dcm"
                 dicom_path = glob.glob(path)
-            except:
-                pass
-        # FIXME: 以下のfor文に含める, ignore する
+            except Exception as e:
+                print(e)
+                print("dicom_pathを取得出来ません。")
+                sys.exit()
         else:
-            try:
-                dicomfiles = [pydicom.dcmread(p) for p in dicom_path]
-            except:
-                dicomfiles = []
-                pass
+            pass
+        
+        del path
+        gc.collect()
 
-        for f, path in zip(dicomfiles, dicom_path):  # FIXME: dicom_path のみで対応する
+        for d_p in dicom_path:
+            dicomfile = pydicom.dcmread(d_p)
             # pixeldataが存在しない場合はエラーになるため，tryで実行する.
             try:
                 # InstanceNumber を取得. １なら無視をする。
                 # （OCRで読み取りたい情報が存在しないため.(TOSHIBA 製)）
-                i_n = str(f.InstanceNumber)
+                i_n = str(dicomfile.InstanceNumber)
                 if i_n == "1":
                     pass
                 # 1以外の場合、OCRを実行
@@ -183,7 +192,7 @@ def main(prot_lang: str, is_dev, use_tesser):
                         ex_protocol = None
 
                     # 読み取ったOCRの結果
-                    out_list, header_index = ocr_funcs.ocr(dicomfile=f,
+                    out_list, header_index = ocr_funcs.ocr(dicomfile=dicomfile,
                                                            prot_lang=prot_lang,
                                                            ex_protocol=ex_protocol,
                                                            use_tesser=use_tesser,
@@ -202,7 +211,7 @@ def main(prot_lang: str, is_dev, use_tesser):
                                 if h_key == 'PRIMARY KEY':
 
                                     header_info = str(
-                                        i) + '_' + str(j) + '_' + f.SOPInstanceUID
+                                        i) + '_' + str(j) + '_' + dicomfile.SOPInstanceUID
                                     temp_dict = {h_key: header_info}
                                     temp_data_dict.update(temp_dict)
 
@@ -213,11 +222,11 @@ def main(prot_lang: str, is_dev, use_tesser):
                                     temp_data_dict.update(temp_dict)
 
                                 elif h_key == 'Path':
-                                    temp_dict = {h_key: path}
+                                    temp_dict = {h_key: d_p}
                                     temp_data_dict.update(temp_dict)
 
                                 elif h_key == 'Identified Modality':
-                                    header_info = f.Modality
+                                    header_info = dicomfile.Modality
                                     temp_dict = {h_key: header_info}
                                     temp_data_dict.update(temp_dict)
 
@@ -228,7 +237,7 @@ def main(prot_lang: str, is_dev, use_tesser):
 
                                 else:
                                     try:
-                                        header_info = str(getattr(f, h_key))
+                                        header_info = str(getattr(dicomfile, h_key))
                                         temp_dict = {h_key: header_info}
                                         temp_data_dict.update(temp_dict)
                                     except:
@@ -276,6 +285,8 @@ def main(prot_lang: str, is_dev, use_tesser):
                 print(e)
 
     DATABASE.close()
+
+    print("Writting to DB ...")
 
     # ALL_DATA table に書き込む
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
@@ -328,10 +339,10 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # # FIXME:debug
-    # is_dev = 'yes'
-    # prot_lang = 'jpn'
-    # use_tesser = False
+    # FIXME:debug
+    is_dev = 'yes'
+    prot_lang = 'jpn'
+    use_tesser = False
 
     main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser)
 
