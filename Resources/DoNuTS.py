@@ -107,7 +107,7 @@ def main():
 
         if _modality != 'Unknown':
             # Connect DB
-            DATABASE = DataBase.WriteDB(MODALITY=_modality, is_dev=False)
+            # DATABASE = DataBase.WriteDB(MODALITY=_modality, is_dev=False)
             # Get rdsr_file from each modality
             rdsr_files = rdsr_files_dict[_modality]
             rdsr_path = rdsr_path_dict[_modality]
@@ -200,16 +200,16 @@ def main():
                             rdsr_data.append(temp_dict.copy())
 
                             # Act by "try" because of PRIMARY_KEY
-                            try:
-                                write_list = [v for v in temp_dict.values()]
-                                # Write DB
-                                DATABASE.main(data=write_list)
+                            # try:
+                            #     write_list = [v for v in temp_dict.values()]
+                            #     # Write DB
+                            #     DATABASE.main(data=write_list)
 
-                                new_data_cnt += 1
-                            except Exception as e:
-                                assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(
-                                    e)
-                                duplicate_data_cnt += 1
+                            #     new_data_cnt += 1
+                            # except Exception as e:
+                            #     assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(
+                            #         e)
+                            #     duplicate_data_cnt += 1
 
                             # clear temp_dict
                             temp_dict = funcs.clear_dict_value(temp_dict)
@@ -244,16 +244,16 @@ def main():
                     rdsr_data.append(temp_dict.copy())
 
                     # Act by "try" because of PRIMARY_KEY
-                    try:
-                        write_list = [v for v in temp_dict.values()]
-                        # Write DB
-                        DATABASE.main(data=write_list)
+                    # try:
+                    #     write_list = [v for v in temp_dict.values()]
+                    #     # Write DB
+                    #     DATABASE.main(data=write_list)
 
-                        new_data_cnt += 1
-                    except Exception as e:
-                        assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(
-                            e)
-                        duplicate_data_cnt += 1
+                    #     new_data_cnt += 1
+                    # except Exception as e:
+                    #     assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(
+                    #         e)
+                    #     duplicate_data_cnt += 1
 
                     # clear temp_dict
                     temp_dict = funcs.clear_dict_value(temp_dict)
@@ -262,17 +262,17 @@ def main():
             else:
                 pass
 
-            print("{} : New {} records, duplicated {} records".format(
-                _modality, new_data_cnt, duplicate_data_cnt))
+            # print("{} : New {} records, duplicated {} records".format(
+            #     _modality, new_data_cnt, duplicate_data_cnt))
             # XA : new 14 records, duplicated 0 records
-    DATABASE.close()
+    # DATABASE.close()
 
     del rdsr_files_dict, modality_files_dict, rdsr_files, temp_dict, _modality
     gc.collect()
 
     # Write on ALL_DATA table
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
-    DATABASE = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=False)
+    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=True)
     for each_rdsr_data in rdsr_data:
 
         # clear all_dict of value
@@ -284,10 +284,16 @@ def main():
 
             # Write DB
             write_list = [v for v in all_dict.values()]
-            DATABASE.main(data=write_list)
-        except:
+            DATABASE_ALL.main(data=write_list)
+            new_data_cnt += 1
+
+        except Exception as e:
+            assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
+            duplicate_data_cnt += 1
             pass
-    DATABASE.close()
+    print("New {} records, duplicated {} records".format(
+        new_data_cnt, duplicate_data_cnt))
+    DATABASE_ALL.close()
 
     end = time.time()
 
@@ -305,7 +311,7 @@ def main():
     df = pd.read_json(file_name_json)
     df.to_csv(file_name_csv, encoding='utf-8')
 
-    print("Processing time : {} seconds".format(int(end-start)))
+    print("Processing time : {:.2f} seconds".format(float(end-start)))
 
     print('********************Done Processing RDSR files********************')
 

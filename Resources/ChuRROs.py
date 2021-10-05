@@ -143,7 +143,7 @@ def main(prot_lang: str, is_dev, use_tesser):
         pass
 
     # DBを初期化 (OCR)
-    DATABASE_OCR = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
+    # DATABASE_OCR = DataBase.WriteDB(MODALITY='OCR', is_dev=is_dev)
 
     # OCRを実行したDCMデータ数 InstanceNumber=1のデータはカウントに含めない
     data_cnt = 0
@@ -291,19 +291,19 @@ def main(prot_lang: str, is_dev, use_tesser):
                         pass
 
                     # DBへの書き込み
-                    for d in data:
-                        try:
-                            write_list = [v for v in d.values()]
-                            DATABASE_OCR.main(data=write_list)
-                            new_data_cnt += 1
-                        except Exception as e:
-                            # print(e)
-                            duplicate_data_cnt += 1
-                            pass
+                    # for d in data:
+                    #     try:
+                    #         write_list = [v for v in d.values()]
+                    #         DATABASE_OCR.main(data=write_list)
+                    #         new_data_cnt += 1
+                    #     except Exception as e:
+                    #         # print(e)
+                    #         duplicate_data_cnt += 1
+                    #         pass
             except Exception as e:
                 print("予期せぬ例外:{}".format(e))
 
-    DATABASE_OCR.close()
+    # DATABASE_OCR.close()
 
     print("Writting to DB ...")
 
@@ -322,7 +322,9 @@ def main(prot_lang: str, is_dev, use_tesser):
             # to DB
             write_list = [v for v in all_dict.values()]
             DATABASE_ALL.main(data=write_list)
+            new_data_cnt += 1
         except Exception as e:
+            duplicate_data_cnt += 1
             assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
             pass
     DATABASE_ALL.close()
@@ -358,10 +360,10 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # # FIXME:debug
-    # is_dev = 'yes'
-    # prot_lang = 'jpn'
-    # use_tesser = True
+    # FIXME:debug
+    is_dev = 'yes'
+    prot_lang = 'jpn'
+    use_tesser = True
 
     main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser)
 
