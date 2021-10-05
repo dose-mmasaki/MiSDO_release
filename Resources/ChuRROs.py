@@ -4,6 +4,10 @@
 """
 OCR
 
+Tesseractを利用する場合,use_tesser = True
+Tesseractを利用するとき、prot_lang = 'jpn'or'eng'
+
+
 """
 import argparse
 import datetime
@@ -15,7 +19,6 @@ import pprint
 import gc
 
 import pydicom
-# from PIL import Image, ImageChops
 from tqdm import tqdm
 import numpy as np
 
@@ -26,7 +29,7 @@ import ocr_funcs
 
 ocr_header = {
     'PRIMARY KEY': ' ',
-    'WittenDate': ' ',
+    'WrittenDate': ' ',
     'Path': ' ',
     'Identified Modality': "",
     "SOPInstanceUID": " ",
@@ -115,15 +118,22 @@ def main(prot_lang: str, is_dev, use_tesser):
     files_dir = [f for f in files if os.path.isdir(
         os.path.join(dicom_directory, f))]
 
-    del files, desktop_dir
-    gc.collect()
-
     # dicom_directoryが最下層のディレクトリの場合、そのディレクトリをfiles_dirとする
     # path/to/data/001 >>> 001
     if len(files_dir) == 0:
         split_last = dicom_directory.split('/')[-1]
         dicom_directory = dicom_directory.replace('/'+split_last, '')
         files_dir.append(split_last)
+
+    del files, desktop_dir,
+    gc.collect()
+
+    try:
+        del split_last
+        gc.collect()
+    except:
+        # ignore
+        pass
 
     if use_tesser:
         # OCRエンジン
@@ -180,6 +190,7 @@ def main(prot_lang: str, is_dev, use_tesser):
             # 予期せぬ例外を拾う
             try:
                 if i_n == "1":
+                    # InsetanceNumberが1のとき、線量情報が存在しないため、passする
                     pass
 
                 # 1以外の場合、OCRを実行
@@ -198,7 +209,7 @@ def main(prot_lang: str, is_dev, use_tesser):
                         # 前回結果がない場合、Noneとする。
                         ex_protocol = None
 
-                    # 読み取ったOCRの結果
+                    # out_list: 読み取ったOCRの結果
                     out_list = ocr_funcs.ocr(np_img=pix_np_array,
                                              prot_lang=prot_lang,
                                              ex_protocol=ex_protocol,
@@ -222,7 +233,7 @@ def main(prot_lang: str, is_dev, use_tesser):
                                     temp_dict = {h_key: header_info}
                                     temp_data_dict.update(temp_dict)
 
-                                elif h_key == 'WittenDate':
+                                elif h_key == 'WrittenDate':
                                     date = datetime.date.today().strftime('%Y%m%d')
 
                                     temp_dict = {h_key: date}
@@ -262,8 +273,8 @@ def main(prot_lang: str, is_dev, use_tesser):
 
                             data.append(temp_data_dict)
 
-                    # プロトコル名をデフォルトの名前に変更
                     if use_tesser:
+                        # プロトコル名をデフォルトの名前に変更
                         for d in data:
                             p = d['Acquisition Protocol']
 
@@ -298,7 +309,6 @@ def main(prot_lang: str, is_dev, use_tesser):
 
     # ALL_DATA table に書き込む
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
-    print(sys.getsizeof(all_dict))
     DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=is_dev)
     for each_data in all_data:
 
@@ -348,10 +358,10 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # FIXME:debug
-    is_dev = 'yes'
-    prot_lang = 'jpn'
-    use_tesser = False
+    # # FIXME:debug
+    # is_dev = 'yes'
+    # prot_lang = 'jpn'
+    # use_tesser = True
 
     main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser)
 

@@ -1,6 +1,7 @@
 import difflib
 import glob
 import os
+import sys
 import re
 import json
 import gc
@@ -87,59 +88,110 @@ def find_protocol_OCR(separated_img: np.ndarray, prot_lang: str, use_tesser: boo
     """
     header_index = []
     protocol_list = []
+
+    # json_dataを読みだす
+    # use_tesserの有無に関係なく読み出し、dose_headerの特定に利用する
+    json_path = "./Resources/PROTOCOL_PROJECTION.json"
+    json_data = open(json_path, mode='r', encoding='utf-8')
+    json_projection_data = json.load(json_data)
+    json_data.close()
+
+    del json_path, json_data
+    gc.collect()
+
+    # tesseract を利用する
     if use_tesser:
         # 以下のパターンをプロトコル名として認識
         prot_pattern = "(\d\.*)"
-        if prot_lang == 'jpn':
-            header_pattern = "トータル"
-        else:
-            header_pattern = "Total"
-        # result_list = []
+
         for i, s_i in enumerate(separated_img):
+
+            """
+            Projection data を利用する
+            """
+            # ndarray >>> PIL
             img_org_sp = Image.fromarray(s_i)
+            # crop image
             img_org_sp_crop = cropImage(img_org_sp)
-            m_5 = 5
-            img_org_sp_crop_margin_5 = add_margin(
-                img_org_sp_crop, m_5, m_5, m_5, m_5)
+            # PIL >>> ndarray
+            np_img = np.array(img_org_sp_crop)
 
-            m_10 = 10
-            img_org_sp_crop_margin_10 = add_margin(
-                img_org_sp_crop, m_10, m_10, m_10, m_10)
-            # img_org_sp_crop_margin.show()
+            # Convert 1 >> 0, 255 >> 1
+            np_img = np.where(np_img == 1, 0, 1)
+            # 縦方向にデータを加算する
+            np_sum = np_img.sum(axis=0)
+            # array >>> list
+            np_sum_list = list(np_sum)
 
-            # Assume a single column of text of variable sizes.
-            builder = pyocr.builders.TextBuilder(tesseract_layout=4)
+            del img_org_sp, img_org_sp_crop, np_img, np_sum,
+            gc.collect()
 
-            result_5 = tool.image_to_string(
-                img_org_sp_crop_margin_5, lang=prot_lang, builder=builder)
-            result_10 = tool.image_to_string(
-                img_org_sp_crop_margin_10, lang=prot_lang, builder=builder)
+            # OCR対象のProjection_daataを作成
+            projection_str = ''
+            for sum in np_sum_list:
+                projection_str += str(sum)
 
-            # print(result)
-            # result_list.append(result)
-            repatter = re.compile(prot_pattern)
-            rst_5 = repatter.match(result_5)
-            rst_10 = repatter.match(result_10)
-
-            if (header_pattern in result_5) or (header_pattern in result_10):
+            # json からdose_ehaderのdataを抽出
+            value = json_projection_data[0]["dose_header"]
+            # dose header (トータルMAS, 照射時間,,,)
+            if value in projection_str:
                 header_index.append(i)
+            """
+            Projection dataの利用ここまで
+            """
+        try:
+            for h_i in header_index:
+                target_index = h_i - 1
 
-            if not (rst_5 or rst_10) is None:
-                if rst_5 is None:
-                    tmp_dict = {str(result_10): i}
-                elif rst_10 is None:
-                    tmp_dict = {str(result_5): i}
+                target_separated_img = separated_img[target_index]
 
-                elif not (rst_5 and rst_10) is None:
-                    tmp_dict = {str(result_10): i}
-                protocol_list.append(tmp_dict)
+                img_org_sp = Image.fromarray(target_separated_img)
+                img_org_sp_crop = cropImage(img_org_sp)
 
+                # マージンを追加した画像を作成
+                m_10 = 10
+                img_org_sp_crop_margin_10 = add_margin(
+                    img_org_sp_crop, m_10, m_10, m_10, m_10)
+
+                # Assume a single column of text of variable sizes.
+                builder = pyocr.builders.TextBuilder(tesseract_layout=4)
+
+                result_10 = tool.image_to_string(
+                    img_org_sp_crop_margin_10, lang=prot_lang, builder=builder)
+
+                # 読み取った結果が正規表現に含まれるか検証
+                repatter = re.compile(prot_pattern)
+                rst_10 = repatter.match(result_10)
+
+                # result_10がマッチしていた場合
+                if rst_10 is not None:
+                    # プロトコル名として追加
+                    tmp_dict = {str(result_10): target_index}
+                    protocol_list.append(tmp_dict)
+                # マッチしていなかった場合
+                else:
+                    # マージン5の画像を作成
+                    m_5 = 5
+                    img_org_sp_crop_margin_5 = add_margin(
+                        img_org_sp_crop, m_5, m_5, m_5, m_5)
+                    # OCR
+                    result_5 = tool.image_to_string(
+                        img_org_sp_crop_margin_5, lang=prot_lang, builder=builder)
+                    # 読み取った結果が正規表現に含まれるか検証
+                    rst_5 = repatter.match(result_5)
+                    if rst_5 is not None:
+                        tmp_dict = {str(result_10): target_index}
+                        protocol_list.append(tmp_dict)
+                    else:
+                        # マージン5,10で読み取っても正規表現とマッチしないため、プロトコル名以外の可能性が高い
+                        # (プロトコル名が存在せず、dose_headerのみ存在するような画像)
+                        pass
+
+        except:
+            pass
+
+    # tesseract を利用しない
     else:
-        json_path = "./Resources/PROTOCOL_PROJECTION.json"
-        json_data = open(json_path, mode='r', encoding='utf-8')
-        json_projection_data = json.load(json_data)
-        json_data.close()
-
         for i, s_i in enumerate(separated_img):
             # ndarray >>> PIL
             img_org_sp = Image.fromarray(s_i)
@@ -279,7 +331,7 @@ def add_margin(pil_img, top, right, bottom, left):
     return result
 
 
-def cropImage(img):
+def cropImage(img: Image.Image) -> Image.Image:
     """Crop
 
     Args:
@@ -294,7 +346,7 @@ def cropImage(img):
     diff = ImageChops.difference(img, bg)
     # 背景色との境界を求めて切り抜く. 画像内で値が0でない最小領域を返す
     croprange = diff.convert("L").getbbox()
-    crop_img = img.crop(croprange)
+    crop_img = img.crop(croprange)  # 切り抜き
 
     return crop_img
 
@@ -632,6 +684,8 @@ def ocr(np_img: np.ndarray, prot_lang: str, use_tesser: bool, tool=None, ex_prot
     protocol_list, header_index = find_protocol_OCR(
         separated_img, prot_lang, use_tesser, tool=tool)
 
+    # 記載されているプロトコル名の数がヘッダーの数より少ない場合、
+    # ex_protocol を利用する.
     if (len(protocol_list) < len(header_index)) and ex_protocol != None:
         insert_ex_protocol = {ex_protocol: 999}
         protocol_list.insert(0, insert_ex_protocol)
