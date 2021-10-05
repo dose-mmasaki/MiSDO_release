@@ -9,7 +9,7 @@ def return_json_temprate(MODALITY: str) -> dict:
     """
     header = {
         'PRIMARY KEY':' ',
-        'WittenDate' :' ',
+        'WrittenDate' :' ',
         'Path':' ',
         'Identified Modality':"",
         "SOPInstanceUID":" ",
