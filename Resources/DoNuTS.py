@@ -266,7 +266,7 @@ if __name__ == '__main__':
         sys.exit()
 
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
-    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=True)
+    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=False)
 
     # モダリティ別にジェネレータを作成し、実行する
     print("Dataを取得中...")
