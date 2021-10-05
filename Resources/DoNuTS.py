@@ -287,7 +287,6 @@ if __name__ == '__main__':
                     # Write data into all_dict
                     each_rdsr_data = funcs._setdefault(
                         each_rdsr_data, all_dict)
-                    all.append(each_rdsr_data)
                     all_dict.update(each_rdsr_data)
 
                     # Write DB
@@ -296,8 +295,7 @@ if __name__ == '__main__':
                     new_data_cnt += 1
 
                 except Exception as e:
-                    assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(
-                        e)
+                    assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
                     duplicate_data_cnt += 1
                     pass
         print("{} : New {} records, duplicated {} records".format(
