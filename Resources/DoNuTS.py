@@ -271,6 +271,7 @@ def main():
     gc.collect()
 
     # Write on ALL_DATA table
+    print("Writting to DB ...")
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
     DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=True)
     for each_rdsr_data in rdsr_data:
