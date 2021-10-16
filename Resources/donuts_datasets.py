@@ -10,9 +10,11 @@ def return_json_temprate(MODALITY: str) -> dict:
     header = {
         'PRIMARY KEY':' ',
         'WrittenDate' :' ',
+        'Runtime': ' ',
         'Path':' ',
         'Identified Modality':"",
         "SOPInstanceUID":" ",
+        "StudyInstanceUID":" ",
         "StudyID":" ",
         "ManufacturerModelName": " ",
         "PatientID": " ",
