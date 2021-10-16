@@ -1,8 +1,8 @@
 import datetime
 import glob
-import sys
+import sys,os
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
 import pydicom
 from tqdm import tqdm
@@ -30,6 +30,18 @@ def select_directory(initial_path: str) -> str:
         initialdir=initial_path, title='DICOMファイルが含まれるフォルダを選択')
     return dicom_directory
 
+def get_path(dicom_directory:str):
+    if dicom_directory == "":
+        messagebox.showerror("エラー","選択されたディレクトリに問題があります.\nプログラムを終了します．")
+        sys.exit(0)
+
+    else:
+        # 総ファイル数を取得する(tqdmで使用するため)
+        total_file_cnt = sum(os.path.isfile(os.path.join(file)) for file in glob.glob(dicom_directory + '/**/*.dcm', recursive=True))
+        # イテレータを作成
+        path_of_files = glob.iglob(dicom_directory + '/**/*.dcm', recursive=True)
+        return path_of_files, total_file_cnt
+    
 
 def get_dicom_files(directory_path: str) -> list:
     """
@@ -55,7 +67,7 @@ def get_dicom_files(directory_path: str) -> list:
         # dcmreadで読み込めたファイルのみdicom_filesに追加
         for p in tqdm(path_of_files, desc="データ読み込み中"):
             try:
-                dicom_files.append(pydicom.dcmread(p))
+                dicom_files.append(pydicom.dcmread(p)) # FIXME: メモリサイズが大きくなる原因
                 dicom_path.append(p)
             except:
                 pass
@@ -103,6 +115,52 @@ def separate_dicom_files(dicom_files: list, dicom_path:list, MODALITY: str) -> d
     
     return rdsr_files_dict, rdsr_path_dict, modality_files_dict, modality_path_dict
 
+def identify_modality(dicom_file)-> str:
+    """DICOMのモダリティを特定する。
+
+    Args:
+        dicom_file (pydicom): [description]
+
+    Returns:
+        str: _modality ; モダリティの種類
+    """    
+    
+    
+    # SR はモダリティの判別が困難のため，特定のキーワードで検索する．
+    # XAかCTに大別する。
+    find_keys = {
+        "XA": "Projection",
+        "CT": "Tomography"
+        # "PT":"PET"
+        # "NM":"none"
+        }
+    
+    # SRのときは、XA,CTで大別する。
+    if dicom_file.Modality == "SR":
+        try:
+            # CT,ANGIOのとき
+            modality_description = dicom_file[0x0040, 0xa730][0][0x0040, 0xa168][0][0x0008, 0x0104].value
+            
+            if find_keys["XA"] in modality_description:
+                _modality = "XA"
+                
+            elif find_keys["CT"] in modality_description:
+                _modality = "CT"
+            
+            else:
+                _modality = 'Unknown'
+        except :
+            # ignore
+            pass
+    
+    # SR以外のとき、モダリティが(XA,XT,NM,PT)のいずれかであるから、
+    # SRと区別するため、M_XXとする。
+    else:
+        _modality = "M_" + dicom_file.Modality
+        
+    return _modality
+    
+    
 
 def separate_rdsr_dicom_files_and_identify_each_modality(dicom_files: list, dicom_path:list) -> dict:
     """すべてのdicom fileを引数に，rdsrを分割し，モダリティーを判別する．
@@ -242,7 +300,7 @@ def separate_Acquisition(rdsr_file: pydicom.dataset.FileDataset, MODALITY: str) 
 
     Irradiation_Event_dict = {
         "CT": "113819",  # CT Acquisition
-        "XR": "",
+        "NM": "",       # データがないのでわからない
         "XA": "113706",  # Irradiation Event X-Ray Data
         "PT": "113819"  # pst-ctと見なしてCTと同じ値にする
     }
@@ -488,7 +546,58 @@ def extract_data_from_CT_Acquisition(tmp_dict: dict, Acquisition: pydicom.datael
         
     return tmp_dict
 
-def get_events_from_rdsr(rdsr_files: pydicom.dataset.FileDataset, MODALITY: str) -> dict:
+def get_IrradiationEvents(rdsr_file: pydicom.dataset.FileDataset, MODALITY: str) -> int:
+    """曝射回数をRDSRからeventsとして読み取る
+
+    rdsr_files[0x0040,0xa730]の中を繰り返し検索する
+
+    Args:
+        rdsr_files ([pydicom.dataset.FileDataset]): dcmreadで読み込まれたファイル
+        MODALITY ([str]): XA or CT
+
+    Returns:
+        EVENTS ([int]): 照射回数を返す
+    """
+
+    EVENTS = 0
+    # 照射回数をevent_countsとする
+    event_counts = 0  # XAのため
+
+    # 以下で照射回数を取得
+    try:
+        for r in rdsr_file[0x0040, 0xa730].value:
+            # CTの場合、直接的に照射回数をRDSRから読み取る
+            if MODALITY == "CT":
+                TotalNumberofIrradiationEvents_code = '113812'
+                try:
+                    if r[0x0040, 0xa730][0][0x0040, 0xa043][0][0x0008, 0x0100].value == TotalNumberofIrradiationEvents_code:
+                        events = r[0x0040, 0xa730][0][0x0040,
+                                                    0xa300][0][0x0040, 0xa30a].value
+                except:
+                    pass
+                
+            # XAの場合、直接照射回数がわからないため、照射情報の記載回数を数える。
+            elif MODALITY == "XA":
+
+                try:
+                    if r[0x0040, 0xa043][0][0x0008, 0x0100].value == '113706':
+                        event_counts += 1
+                except:
+                    pass
+                events = event_counts
+                
+            else:
+                # ignore
+                pass
+
+    except :
+        # ignore
+        pass
+    EVENTS = int(events)
+    
+    return EVENTS
+
+def get_events_from_rdsr(rdsr_files: list, MODALITY: str) -> dict:
     """曝射回数をRDSRからeventsとして読み取る
 
     rdsr_files[0x0040,0xa730]の中を繰り返し検索する
@@ -575,12 +684,12 @@ def calc_total_event(events_dict: dict) -> int:
     return cnt
 
 
-def extract_CT_Dose_Length_Product_Total(rdsr_files: pydicom.dataset.FileDataset) -> str:
+def extract_CT_Dose_Length_Product_Total(rdsr_file: pydicom.dataset.FileDataset) -> str:
     """
     RDSRからCT Dose Length Product Totalを抽出し，辞書で出力
 
     Args:
-        rdsr_files ([pydicom.dataset.FileDataset]): dcmreadで読み込まれたファイル
+        rdsr_file ([pydicom.dataset.FileDataset]): dcmreadで読み込まれたファイル
 
     Returns:
         [str]: CT Dose Length Product Total
@@ -589,7 +698,7 @@ def extract_CT_Dose_Length_Product_Total(rdsr_files: pydicom.dataset.FileDataset
     # CT Dose Length Product TotalのEV
     CTDoseLengthProductTotal_code = '113813'
 
-    for _, r in enumerate(rdsr_files[0x0040, 0xa730].value):
+    for _, r in enumerate(rdsr_file[0x0040, 0xa730].value):
         try:
             if r[0x0040, 0xa730][1][0x0040, 0xa043][0][0x0008, 0x0100].value == CTDoseLengthProductTotal_code:
                 CDLPT = r[0x0040, 0xa730][1][0x0040,
@@ -759,7 +868,7 @@ def _setdefault(rdsr:dict, all_dict:dict)-> dict:
 
 def writeHeader(m, temp_dict:dict, _modality:str, path:str):
     for data_key in temp_dict.keys():
-        if data_key == "WittenDate":
+        if data_key == "WrittenDate":
             date = datetime.date.today()
             date = date.strftime('%Y%m%d')
             temp_dict[data_key] = date
