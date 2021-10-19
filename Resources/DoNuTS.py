@@ -62,7 +62,6 @@ def get_logger(logger_name, log_file, f_fmt='%(message)s'):
 # @profile
 def main(MODALITY, logger, runtime):
     
-    print("Start DoNuTS\n")
     pprint.pprint("  ###        ##    #       #######   ###  ")
     pprint.pprint(" #   #       # #   #          #     #   # ")
     pprint.pprint(" #    #      #  #  #          #      #    ")
@@ -70,6 +69,7 @@ def main(MODALITY, logger, runtime):
     pprint.pprint(" #   #  #  # #    ##  #  #    #    #   #  ")
     pprint.pprint("  ###    ##  #     #  ###     #     ###   ")
     
+    print("\nStart DoNuTS\n")
 
     # desktop_dir = os.getenv('HOMEDRIVE') + os.getenv('HOMEPATH') + '/Desktop'
     desktop_dir = os.path.expanduser("~") + '/Desktop'
@@ -78,7 +78,13 @@ def main(MODALITY, logger, runtime):
 
     # pathを取得するジェネレータを作成, tqdmのためのtotal_file_cntを取得.
     path_generator, total_file_cnt = funcs.get_path(dicom_directory)
-    print("\nFound {} DICOM files.\n".format(total_file_cnt))
+    
+    if total_file_cnt==0:
+        messagebox.showerror('エラー', 'DICOMファイルが見つかりませんでした。\nプログラムを終了します。')
+        sys.exit(0)
+    
+    else:
+        print("Found {} DICOM files.\n".format(total_file_cnt))
 
     # 実行時間計測の開始
     start = time.time()
@@ -92,7 +98,7 @@ def main(MODALITY, logger, runtime):
 
     # ファイルを一つずつ読み込み、処理を開始する。
     # RDSRのみ処理を行う。
-    print("Process for RDSR ...\n")
+    print("Process for RDSR...\n")
     with tqdm(path_generator, total=total_file_cnt) as pbar:
         for i, dicom_path in enumerate(pbar):
 
@@ -277,7 +283,7 @@ def main(MODALITY, logger, runtime):
     file_name_json = save_name + ".json"
     file_name_csv = save_name + ".csv"
     
-    df.to_csv(file_name_csv, encoding='utf-8')
+    df.to_csv(file_name_csv, header=True, index=None,encoding="shift-jis")
     
     
     
@@ -294,7 +300,7 @@ if __name__ == '__main__':
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
     random_number = random.randint(0, 1000)
-    runtime = date + str(random_number)
+    runtime = date + "_" + str(random_number)
     
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')

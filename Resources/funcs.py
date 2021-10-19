@@ -31,13 +31,22 @@ def select_directory(initial_path: str) -> str:
     return dicom_directory
 
 def get_path(dicom_directory:str):
+    """パスを取得
+
+    Args:
+        dicom_directory (str): [description]
+
+    Returns:
+    path_of_files (Generator) : pathを生成するジェネレーター
+    total_file_cnt (int) : ファイル数
+    """    
     if dicom_directory == "":
         messagebox.showerror("エラー","選択されたディレクトリに問題があります.\nプログラムを終了します．")
         sys.exit(0)
 
     else:
         # 総ファイル数を取得する(tqdmで使用するため)
-        total_file_cnt = sum(os.path.isfile(os.path.join(file)) for file in glob.glob(dicom_directory + '/**/*.dcm', recursive=True))
+        total_file_cnt = sum(os.spath.isfile(os.path.join(file)) for file in glob.glob(dicom_directory + '/**/*.dcm', recursive=True))
         # イテレータを作成
         path_of_files = glob.iglob(dicom_directory + '/**/*.dcm', recursive=True)
         return path_of_files, total_file_cnt
@@ -511,11 +520,14 @@ def extract_data_from_CT_Acquisition(tmp_dict: dict, Acquisition: pydicom.datael
                                 if ct_ev[ct_ev_key] in ['113835']:
                                     tmp_dict[ct_ev_key] = nest1[0x0040,
                                                                 0xa168][0][0x0008, 0x0104].value
-
+                                    
+                                # MeanCTDIvol, DLP, ExposureTime, ScanningLength, ExposedRange,
+                                # NominalSingleCollimationWidth, NominalTotalCollimationWidth, PitchFactor
                                 elif ct_ev[ct_ev_key] in ['113830', '113838', '113824', '113825', '113899', '113826', '113827', '113828']:
                                     tmp_dict[ct_ev_key] = nest1[0x0040,
                                                                 0xa300][0][0x0040, 0xa30a].value
-
+                                    
+                                # DeviceManufacturer, DeviceSerialNumber
                                 elif ct_ev[ct_ev_key] in ['113878', '113880']:
                                     tmp_dict[ct_ev_key] = nest1[0x0040,
                                                                 0xa160].value
