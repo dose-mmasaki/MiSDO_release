@@ -25,7 +25,7 @@ namespace DoNuTS_dotNET4_0
         }
 
         // DBへのパス
-        string db_file = @".\Resources\DONUTS.db";
+        //string db_file = @".\Resources\DONUTS.db";
         //string db_file = @".\Resources\DONUTS.db";
 
 

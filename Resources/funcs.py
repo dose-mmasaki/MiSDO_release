@@ -46,7 +46,7 @@ def get_path(dicom_directory:str):
 
     else:
         # 総ファイル数を取得する(tqdmで使用するため)
-        total_file_cnt = sum(os.spath.isfile(os.path.join(file)) for file in glob.glob(dicom_directory + '/**/*.dcm', recursive=True))
+        total_file_cnt = sum(os.path.isfile(os.path.join(file)) for file in glob.glob(dicom_directory + '/**/*.dcm', recursive=True))
         # イテレータを作成
         path_of_files = glob.iglob(dicom_directory + '/**/*.dcm', recursive=True)
         return path_of_files, total_file_cnt

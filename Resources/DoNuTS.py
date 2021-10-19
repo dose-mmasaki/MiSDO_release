@@ -315,7 +315,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     MODALITY = args.modality
-    MODALITY = "Auto" # FIXME: for dev
+    # MODALITY = "Auto" # FIXME: for dev
 
 
     main(MODALITY=MODALITY, logger=lg, runtime=runtime)

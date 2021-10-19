@@ -115,5 +115,10 @@ namespace DoNuTS_dotNET4_0
         {
 
         }
+
+        private void AskLang_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

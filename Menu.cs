@@ -39,35 +39,42 @@ namespace DoNuTS_dotNET4_0
         string search_column = "";
         string search_text = "";
 
+        string selected_column = "";
+
         string LOWPATH = "";
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            string str_to_donuts = @".\Resources\DoNuTS.py";
-
-            string startDoNuTS = "call " + py37 + " " + str_to_donuts;
-
-            Process p = new Process();
-            ProcessStartInfo info = new ProcessStartInfo();
-            info.FileName = "cmd.exe";
-            info.RedirectStandardInput = true;
-            info.UseShellExecute = false;
-
-            p.StartInfo = info;
-            p.Start();
-
-            using (StreamWriter sw = p.StandardInput)
+            AskModality askModality = new AskModality();
+            askModality.ShowDialog();
+            if (askModality.modality == "")
             {
-                sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
-                sw.WriteLine(startDoNuTS);
+                MessageBox.Show("キャンセルされました.");
             }
-            p.WaitForExit();
 
-            //var proc = new System.Diagnostics.Process();
-            //proc.StartInfo.FileName = str_to_donuts;
-            //proc.Start();
-            //proc.WaitForExit();
+            else
+            {
+                string str_to_donuts = @".\Resources\DoNuTS.py";
+
+                string startDoNuTS = "call " + py37 + " " + str_to_donuts + " --modality " + askModality.modality;
+                
+
+                Process p = new Process();
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "cmd.exe";
+                info.RedirectStandardInput = true;
+                info.UseShellExecute = false;
+
+                p.StartInfo = info;
+                p.Start();
+
+                using (StreamWriter sw = p.StandardInput)
+                {
+                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine(startDoNuTS);
+                }
+                p.WaitForExit();
+            }
         }
 
 
@@ -207,20 +214,27 @@ namespace DoNuTS_dotNET4_0
         // Sqliteからデータを読み込む
         private void load_and_show_SQLite(string sql)
         {
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + db_file))
-
+            try
             {
-                DataTable dataTable = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + db_file))
 
-                conn.Open();
+                {
+                    DataTable dataTable = new DataTable();
 
-                //var sql = "SELECT * FROM " + select_table;
-                var adapter = new SQLiteDataAdapter(sql, conn);
-                adapter.Fill(dataTable);
+                    conn.Open();
 
-                // データを表示
-                dataGridView1.DataSource = dataTable;
-                //dataGridView1.AutoResizeColumns();
+                    //var sql = "SELECT * FROM " + select_table;
+                    var adapter = new SQLiteDataAdapter(sql, conn);
+                    adapter.Fill(dataTable);
+
+                    // データを表示
+                    dataGridView1.DataSource = dataTable;
+                    //dataGridView1.AutoResizeColumns();
+                }
+            }
+            catch
+            {
+                //ignore
             }
         }
 
@@ -469,8 +483,46 @@ namespace DoNuTS_dotNET4_0
 
         private void button9_Click(object sender, EventArgs e)
         {
-            Analyze analyze = new Analyze();
-            analyze.Show();
+            if (selected_column == "")
+            {
+                MessageBox.Show("CTDIvol または DLP を選択してください。", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            else if (sql == "")
+            {
+                MessageBox.Show("先にデータを表示させてから実行してください。", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            else
+            {
+                string str_to_analyze = @".\Resources\analyze.py";
+
+
+
+                Process p = new Process();
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "cmd.exe";
+                info.RedirectStandardInput = true;
+                info.UseShellExecute = false;
+
+                p.StartInfo = info;
+                p.Start();
+
+                sql = sql.Replace("*", selected_column + ",PatientSize,PatientWeight");
+
+                Console.WriteLine(sql);
+
+                string args = " --sql " + '"' + sql + '"';
+
+                string startanalyze = "call " + py37 + " " + str_to_analyze + args;
+
+                using (StreamWriter sw = p.StandardInput)
+                {
+                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine(startanalyze);
+                }
+                p.WaitForExit();
+            }
         }
 
         private void scanNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -569,6 +621,16 @@ namespace DoNuTS_dotNET4_0
         {
             string target = "SCANNAME";
             runMakeProjection(target);
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            selected_column = radioButton1.Text;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            selected_column = radioButton2.Text;
         }
     }
 }
