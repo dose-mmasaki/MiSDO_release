@@ -262,6 +262,7 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\ChuRROs.ico" />
     <Content Include="Resources\analyze.py" />
     <Content Include="Resources\ChuRROs.py" />
     <Content Include="Resources\DataBase.py" />
