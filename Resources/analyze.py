@@ -121,6 +121,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     sql = args.sql
-    sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA WHERE Identified_Modality in ('XA','CT') AND WrittenDate LIKE '%1019%'"
+    # sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA WHERE Identified_Modality in ('XA','CT') AND WrittenDate LIKE '%1019%'"
 
     main(sql=sql)

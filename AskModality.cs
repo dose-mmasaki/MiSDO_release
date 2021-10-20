@@ -53,5 +53,10 @@ namespace DoNuTS_dotNET4_0
             modality = button6.Text;
             Close();
         }
+
+        private void AskModality_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

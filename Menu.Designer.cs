@@ -72,10 +72,10 @@ namespace DoNuTS_dotNET4_0
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.button9 = new System.Windows.Forms.Button();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.button10 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -459,18 +459,13 @@ namespace DoNuTS_dotNET4_0
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "ALL_DATA",
-            "XA",
-            "CT",
-            "PT",
-            "NM",
-            "OCR"});
+            "ALL_DATA"});
             this.comboBox1.Location = new System.Drawing.Point(6, 54);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(1);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(100, 20);
             this.comboBox1.TabIndex = 32;
-            this.comboBox1.Text = "Please Select";
+            this.comboBox1.Text = "ALL_DATA";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // dataGridView1
@@ -504,27 +499,6 @@ namespace DoNuTS_dotNET4_0
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Analyze";
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(107, 14);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(100, 60);
-            this.button9.TabIndex = 53;
-            this.button9.Text = "Analyze";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(565, 64);
-            this.button10.Margin = new System.Windows.Forms.Padding(1);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(120, 70);
-            this.button10.TabIndex = 62;
-            this.button10.Text = "Exit";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
-            // 
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
@@ -537,6 +511,16 @@ namespace DoNuTS_dotNET4_0
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(107, 14);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(100, 60);
+            this.button9.TabIndex = 53;
+            this.button9.Text = "Analyze";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
@@ -548,6 +532,17 @@ namespace DoNuTS_dotNET4_0
             this.radioButton1.Text = "MeanCTDIvol";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(565, 64);
+            this.button10.Margin = new System.Windows.Forms.Padding(1);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(120, 70);
+            this.button10.TabIndex = 62;
+            this.button10.Text = "Exit";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // Menu
             // 

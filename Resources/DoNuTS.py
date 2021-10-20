@@ -321,5 +321,6 @@ if __name__ == '__main__':
     main(MODALITY=MODALITY, logger=lg, runtime=runtime)
     
     print('********************Done DoNuTS********************')
-
+    
     print("End program in 10 seconds.")
+    time.sleep(10)

@@ -35,11 +35,12 @@ namespace DoNuTS_dotNET4_0
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(157, 186);
+            this.button3.Location = new System.Drawing.Point(208, 263);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(110, 50);
             this.button3.TabIndex = 60;
@@ -49,7 +50,7 @@ namespace DoNuTS_dotNET4_0
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(63, 89);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(110, 50);
             this.button1.TabIndex = 61;
@@ -59,7 +60,7 @@ namespace DoNuTS_dotNET4_0
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(157, 12);
+            this.button2.Location = new System.Drawing.Point(208, 89);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(110, 50);
             this.button2.TabIndex = 62;
@@ -69,7 +70,7 @@ namespace DoNuTS_dotNET4_0
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 99);
+            this.button4.Location = new System.Drawing.Point(63, 176);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 50);
             this.button4.TabIndex = 63;
@@ -79,7 +80,7 @@ namespace DoNuTS_dotNET4_0
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(157, 99);
+            this.button5.Location = new System.Drawing.Point(208, 176);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(110, 50);
             this.button5.TabIndex = 64;
@@ -89,7 +90,7 @@ namespace DoNuTS_dotNET4_0
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 186);
+            this.button6.Location = new System.Drawing.Point(63, 263);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(110, 50);
             this.button6.TabIndex = 65;
@@ -97,11 +98,22 @@ namespace DoNuTS_dotNET4_0
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(136, 49);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 16);
+            this.label1.TabIndex = 66;
+            this.label1.Text = "Select Modality";
+            // 
             // AskModality
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(330, 283);
+            this.ClientSize = new System.Drawing.Size(400, 374);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -110,7 +122,9 @@ namespace DoNuTS_dotNET4_0
             this.Controls.Add(this.button3);
             this.Name = "AskModality";
             this.Text = "AskModality";
+            this.Load += new System.EventHandler(this.AskModality_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -121,5 +135,6 @@ namespace DoNuTS_dotNET4_0
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label1;
     }
 }
