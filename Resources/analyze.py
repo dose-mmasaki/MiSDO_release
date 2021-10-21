@@ -16,6 +16,8 @@ def calc_BMI(x : list):
                 result_list_x.append(_BMI)
                 result_list_y.append(data[0])
             else:
+                result_list_x.append(0)
+                result_list_y.append(data[0])
                 pass
     else:
         result_list_x = [0]
@@ -24,7 +26,8 @@ def calc_BMI(x : list):
     return result_list_x, result_list_y
 
 def main(sql:str):
-    DB_path = './Resources/DONUTS.db'
+    # DB_path = './Resources/DONUTS.db'
+    DB_path = 'C:/Users/Oita Lab/AppData/Local/Apps/2.0/HH63CN6R.JKL/BZNGD76C.RH4/donu..tion_c603a5f247abdeaf_0002.0001_c5b1a55681a2c0db/Resources/DONUTS.db'
     conn = sqlite3.connect(DB_path)
     cursor = conn.cursor()
     cursor.execute(sql)
@@ -121,6 +124,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     sql = args.sql
-    # sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA WHERE Identified_Modality in ('XA','CT') AND WrittenDate LIKE '%1019%'"
+    sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA"
 
     main(sql=sql)
