@@ -34,7 +34,7 @@ import pydicom
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-import random
+# import random
 # from memory_profiler import profile
 
 import DataBase
@@ -396,8 +396,8 @@ if __name__ == '__main__':
     
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
-    random_number = random.randint(0, 1000)
-    runtime = date + "_" + str(random_number)
+    runtime_number = time.time()
+    runtime = date + "_" + str(runtime_number)
     
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')

@@ -23,7 +23,7 @@ import json
 import logging
 import os
 import pprint
-import random
+# import random
 import sqlite3
 import sys
 import time
@@ -299,8 +299,8 @@ if __name__ == '__main__':
     
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
-    random_number = random.randint(0, 1000)
-    runtime = date + "_" + str(random_number)
+    runtime_number = time.time()
+    runtime = date + "_" + str(runtime_number)
     
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')
