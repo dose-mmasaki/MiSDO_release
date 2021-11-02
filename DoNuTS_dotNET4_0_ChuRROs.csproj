@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\MISDO\</PublishUrl>
+    <PublishUrl>F:\MISDO\exe\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -25,15 +25,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://donutsproject.sakura.ne.jp/index.html</SupportUrl>
-    <ErrorReportUrl>https://donutsproject.sakura.ne.jp/index.html</ErrorReportUrl>
+    <SupportUrl>https://misdo.org</SupportUrl>
+    <ErrorReportUrl>https://misdo.org</ErrorReportUrl>
     <TargetCulture>ja-JP</TargetCulture>
     <ProductName>MISDO</ProductName>
     <PublisherName>MISDO</PublisherName>
     <SuiteName>MISDO_exe</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>15</ApplicationRevision>
-    <ApplicationVersion>2.1.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.2.1.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -275,34 +275,15 @@
     <Content Include="Resources\license\Tesseract-OCR\README.md" />
     <Content Include="Resources\requirements.txt" />
     <Content Include="Resources\setup.bat" />
-    <Content Include="Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl" />
-    <Content Include="Resources\moduls\Levenshtein-0.13.0-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\moduls\Pillow-8.3.1-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\moduls\pydicom-2.2.0-py3-none-any.whl" />
-    <Content Include="Resources\moduls\pyocr-0.8.tar.gz" />
-    <Content Include="Resources\moduls\python_dateutil-2.8.2-py2.py3-none-any.whl" />
-    <Content Include="Resources\moduls\pytz-2021.1-py2.py3-none-any.whl" />
-    <Content Include="Resources\moduls\six-1.16.0-py2.py3-none-any.whl" />
-    <Content Include="Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl" />
     <Content Include="Resources\Tesseract-OCR.zip" />
-    <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
-    <Content Include="Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\DoNuTS.zip" />
-    <Content Include="Resources\out_csv.zip" />
-    <Content Include="Resources\show_low_data.zip" />
     <Content Include="Resources\tesseract.zip" />
-    <Content Include="Resources\make_projection_data.zip" />
     <Content Include="Resources\PROTOCOL_PROJECTION.json" />
     <Content Include="Resources\SCANNAME_PROJECTION.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\ChuRROs.zip" />
-    <Content Include="Resources\analyze.zip" />
     <Content Include="Resources\data.zip" />
     <Content Include="Resources\doc\usage_32bit.pdf" />
+    <Content Include="Resources\bin.zip" />
     <None Include="Resources\DoNuTS.ico" />
   </ItemGroup>
   <ItemGroup>

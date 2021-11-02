@@ -53,7 +53,7 @@ namespace DoNuTS_dotNET4_0
             }
             else
             {
-                string startDoNuTS = @".\Resources\DoNuTS\DoNuTS.exe";
+                string startDoNuTS = @".\Resources\bin\DoNuTS.exe";
                 string args = "--modality " + askModality.modality;
 
                 System.Diagnostics.Process p =
@@ -99,7 +99,7 @@ namespace DoNuTS_dotNET4_0
             }
             else
             {
-                string str_to_churros = @".\Resources\ChuRROs\ChuRROs.exe";
+                string str_to_churros = @".\Resources\bin\ChuRROs.exe";
                 // 引数を代入
                 string args = "--lang " + frm.language + " --tesser " + frm.use_tesser; ;
 
@@ -363,7 +363,7 @@ namespace DoNuTS_dotNET4_0
             else
             {
                 // show_low_data.exeまでのパス
-                string str_to_show = @".\Resources\show_low_data\show_low_data.exe";
+                string str_to_show = @".\Resources\bin\show_low_data.exe";
                 // 引数を代入
                 string arg = "--path \"" + LOWPATH + "\"";
 
@@ -413,7 +413,7 @@ namespace DoNuTS_dotNET4_0
             try
             {
                 // out_csv.exeまでのパス
-                string str_to_out_csv = @".\Resources\out_csv\\out_csv.exe";
+                string str_to_out_csv = @".\Resources\bin\\out_csv.exe";
                 // 引数を代入
                 sql = "--sql \"" + sql + "\"";
 
@@ -463,7 +463,7 @@ namespace DoNuTS_dotNET4_0
             }
             else
             {
-                string str_to_analyze = @".\Resources\analyze\analyze.exe";
+                string str_to_analyze = @".\Resources\bin\analyze.exe";
 
                 string sql_for_analyze = sql.Replace("*", selected_column + ",PatientSize,PatientWeight");
 

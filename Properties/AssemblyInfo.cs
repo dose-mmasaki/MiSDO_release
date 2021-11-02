@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
 [assembly: AssemblyTitle("MISDO_exe")]
-[assembly: AssemblyDescription("https://donutsproject.sakura.ne.jp/index.html")]
+[assembly: AssemblyDescription("https://misdo.org")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MISDOproject")]
 [assembly: AssemblyProduct("MISDO_exe")]
