@@ -43,7 +43,16 @@ sys.path.append("./")
 
 
 def get_logger(logger_name, log_file, f_fmt='%(message)s'):
-    """ロガーを取得"""
+    """ロガーを取得
+
+    Args:
+        logger_name ([type]): [description]
+        log_file ([type]): [description]
+        f_fmt (str, optional): [description]. Defaults to '%(message)s'.
+
+    Returns:
+        [type]: [description]
+    """    
     # ロガー作成
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
@@ -296,7 +305,7 @@ def main(MODALITY, logger, runtime):
 
 
 if __name__ == '__main__':
-    
+    # いつ実行したかを明確にするためにruntimeを定義する
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
     runtime_number = time.time()
@@ -305,6 +314,7 @@ if __name__ == '__main__':
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')
 
+    # 前回までのログファイルを削除
     lg = get_logger(__name__, './Resources/log.txt')
     lg.debug('ロギング 開始')
     lg.debug(runtime)

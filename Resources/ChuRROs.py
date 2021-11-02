@@ -30,6 +30,7 @@ import pprint
 import gc
 import sqlite3
 
+
 import pydicom
 from tqdm import tqdm
 import numpy as np
@@ -41,6 +42,8 @@ import DataBase
 import donuts_datasets
 import funcs
 import ocr_funcs
+
+
 
 ocr_header = {
     'PRIMARY KEY': ' ',
@@ -91,6 +94,7 @@ def get_logger(logger_name, log_file, f_fmt='%(message)s'):
 
 # @profile
 def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
+
     pprint.pprint("   ###  #           ####   ####              ")
     pprint.pprint("  #   # #           #   #  #   #         ### ")
     pprint.pprint(" #      #           ####   ####    ##   #    ")
@@ -394,6 +398,7 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
 if __name__ == '__main__':
     
+    
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
     runtime_number = time.time()
@@ -430,9 +435,9 @@ if __name__ == '__main__':
         is_dev = False
 
     # FIXME:debug
-    is_dev = 'yes'
-    prot_lang = 'jpn'
-    use_tesser = False
+    # is_dev = 'yes'
+    # prot_lang = 'jpn'
+    # use_tesser = False
 
     main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser, runtime=runtime, logger=lg)
 

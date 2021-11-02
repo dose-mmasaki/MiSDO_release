@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\DoNuTS_release\32bit\</PublishUrl>
+    <PublishUrl>F:\MISDO\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,9 +27,12 @@
     <MapFileExtensions>true</MapFileExtensions>
     <SupportUrl>https://donutsproject.sakura.ne.jp/index.html</SupportUrl>
     <ErrorReportUrl>https://donutsproject.sakura.ne.jp/index.html</ErrorReportUrl>
-    <ProductName>DoNuTS</ProductName>
-    <PublisherName>MASAKI MATSUMOTO</PublisherName>
-    <ApplicationRevision>1</ApplicationRevision>
+    <TargetCulture>ja-JP</TargetCulture>
+    <ProductName>MISDO</ProductName>
+    <PublisherName>MISDO</PublisherName>
+    <SuiteName>MISDO_exe</SuiteName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>2.1.3.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -99,7 +102,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DFE8B9D46B2EE72D52DD33F51EA68FBDD99E78FE</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>BD29DF790BFB46EECA4AAE865AEF2C2178731D8D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -109,10 +112,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>donuts_win32.pfx</ManifestKeyFile>
+    <ManifestKeyFile>MISDOPROJECT.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -121,8 +124,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>MISDOPROJECT.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -249,6 +251,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
+    <None Include="misdo.pfx" />
+    <None Include="MISDOPROJECT.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\DataSources\DoNuTS_dotNET4_0.Properties.Resources.datasource" />
@@ -286,11 +290,17 @@
     <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
     <Content Include="Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl" />
+    <Content Include="Resources\DoNuTS.zip" />
+    <Content Include="Resources\out_csv.zip" />
+    <Content Include="Resources\show_low_data.zip" />
     <Content Include="Resources\tesseract.zip" />
+    <Content Include="Resources\make_projection_data.zip" />
     <Content Include="Resources\PROTOCOL_PROJECTION.json" />
     <Content Include="Resources\SCANNAME_PROJECTION.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\ChuRROs.zip" />
+    <Content Include="Resources\analyze.zip" />
     <Content Include="Resources\data.zip" />
     <Content Include="Resources\doc\usage_32bit.pdf" />
     <None Include="Resources\DoNuTS.ico" />
