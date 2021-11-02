@@ -1,10 +1,15 @@
 import argparse
-from matplotlib import pyplot as plt
 import sqlite3
-# import re
-import seaborn as sns
+import sys,os
+
+sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+
 # import pandas as pd
 import numpy as np
+# import re
+import seaborn as sns
+from matplotlib import pyplot as plt
+
 
 def calc_BMI(x : list):
     if len(x)!=0:
@@ -26,8 +31,8 @@ def calc_BMI(x : list):
     return result_list_x, result_list_y
 
 def main(sql:str):
-    # DB_path = './Resources/DONUTS.db'
-    DB_path = 'C:/Users/Oita Lab/AppData/Local/Apps/2.0/HH63CN6R.JKL/BZNGD76C.RH4/donu..tion_c603a5f247abdeaf_0002.0001_c5b1a55681a2c0db/Resources/DONUTS.db'
+    DB_path = './Resources/DONUTS.db'
+    # DB_path = 'C:/Users/Oita Lab/AppData/Local/Apps/2.0/HH63CN6R.JKL/BZNGD76C.RH4/donu..tion_c603a5f247abdeaf_0002.0001_c5b1a55681a2c0db/Resources/DONUTS.db'
     conn = sqlite3.connect(DB_path)
     cursor = conn.cursor()
     cursor.execute(sql)
@@ -124,6 +129,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     sql = args.sql
-    sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA"
+    # sql = "SELECT MeanCTDIvol,PatientSize,PatientWeight FROM ALL_DATA"
 
     main(sql=sql)

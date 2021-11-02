@@ -30,6 +30,8 @@ import time
 import tkinter as tk
 from tkinter import messagebox
 
+sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+
 import pandas as pd
 import pydicom
 # from memory_profiler import profile
@@ -52,7 +54,7 @@ def get_logger(logger_name, log_file, f_fmt='%(message)s'):
 
     Returns:
         [type]: [description]
-    """    
+    """
     # ロガー作成
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
@@ -70,14 +72,14 @@ def get_logger(logger_name, log_file, f_fmt='%(message)s'):
 
 # @profile
 def main(MODALITY, logger, runtime):
-    
+
     pprint.pprint("  ###        ##    #       #######   ###  ")
     pprint.pprint(" #   #       # #   #          #     #   # ")
     pprint.pprint(" #    #      #  #  #          #      #    ")
     pprint.pprint(" #    #  ##  #   # #  #  #    #       #   ")
     pprint.pprint(" #   #  #  # #    ##  #  #    #    #   #  ")
     pprint.pprint("  ###    ##  #     #  ###     #     ###   ")
-    
+
     print("\nStart DoNuTS\n")
 
     # desktop_dir = os.getenv('HOMEDRIVE') + os.getenv('HOMEPATH') + '/Desktop'
@@ -87,11 +89,11 @@ def main(MODALITY, logger, runtime):
 
     # pathを取得するジェネレータを作成, tqdmのためのtotal_file_cntを取得.
     path_generator, total_file_cnt = funcs.get_path(dicom_directory)
-    
-    if total_file_cnt==0:
+
+    if total_file_cnt == 0:
         messagebox.showerror('エラー', 'DICOMファイルが見つかりませんでした。\nプログラムを終了します。')
         sys.exit(0)
-    
+
     else:
         print("Found {} DICOM files.\n".format(total_file_cnt))
 
@@ -229,17 +231,17 @@ def main(MODALITY, logger, runtime):
                                 # temp_dictにデータを格納していく。
                                 temp_dict = donuts_datasets.return_json_temprate(
                                     MODALITY="Auto")
-                                
+
                                 _modality = _modality[-2:]  # M_XX → XX
-                                
+
                                 temp_dict = funcs.writeHeader(
                                     dicom_file, temp_dict, _modality, dicom_path)
-                                
+
                                 temp_dict['PRIMARY KEY'] = temp_dict['SOPInstanceUID'] + \
                                     "_" + temp_dict['PatientID']
-                                    
+
                                 temp_dict['Runtime'] = runtime
-                                
+
                                 temp_dict['RadionuclideTotalDose'] = _dose
 
                                 try:
@@ -278,30 +280,28 @@ def main(MODALITY, logger, runtime):
                 except:
                     # ignore
                     pass
-                
+
     DATABASE_ALL.close()
-                
+
     # CSVに出力するために改めてDBに接続する。
     DB_path = './Resources/DONUTS.db'
     conn = sqlite3.connect(DB_path)
     SQL = "select * from ALL_DATA where Runtime='" + runtime + "'"
 
-    df = pd.read_sql_query(SQL,conn)
-    
+    df = pd.read_sql_query(SQL, conn)
+
     save_name = './Resources/latest'
     file_name_json = save_name + ".json"
     file_name_csv = save_name + ".csv"
-    
-    df.to_csv(file_name_csv, header=True, index=None,encoding="shift-jis")
-    
-    
-    
-    
+
+    df.to_csv(file_name_csv, header=True, index=None, encoding="shift-jis")
+
     # 実行時間計測の終了
     end = time.time()
     print("Processing time : {:.2f} seconds.\n".format(float(end-start)))
-    
-    print("New {} records, duplicated {} records.\n".format(new_data_cnt, duplicate_data_cnt))
+
+    print("New {} records, duplicated {} records.\n".format(
+        new_data_cnt, duplicate_data_cnt))
 
 
 if __name__ == '__main__':
@@ -310,7 +310,7 @@ if __name__ == '__main__':
     date = date.strftime('%Y%m%d')
     runtime_number = time.time()
     runtime = date + "_" + str(runtime_number)
-    
+
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')
 
@@ -327,10 +327,9 @@ if __name__ == '__main__':
     MODALITY = args.modality
     # MODALITY = "Auto" # FIXME: for dev
 
-
     main(MODALITY=MODALITY, logger=lg, runtime=runtime)
-    
+
     print('********************Done DoNuTS********************')
-    
+
     print("End program in 10 seconds.")
     time.sleep(10)

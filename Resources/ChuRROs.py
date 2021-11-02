@@ -30,6 +30,7 @@ import pprint
 import gc
 import sqlite3
 
+sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
 
 import pydicom
 from tqdm import tqdm
@@ -44,7 +45,6 @@ import funcs
 import ocr_funcs
 
 
-
 ocr_header = {
     'PRIMARY KEY': ' ',
     'WrittenDate': ' ',
@@ -52,7 +52,7 @@ ocr_header = {
     'Path': ' ',
     'Identified Modality': "",
     "SOPInstanceUID": " ",
-    "StudyInstanceUID":" ",
+    "StudyInstanceUID": " ",
     "StudyID": " ",
     "ManufacturerModelName": " ",
     "PatientID": " ",
@@ -76,6 +76,7 @@ ocr_dict = {
     'DLP': ''
 }
 
+
 def get_logger(logger_name, log_file, f_fmt='%(message)s'):
     """ロガーを取得"""
     # ロガー作成
@@ -93,6 +94,8 @@ def get_logger(logger_name, log_file, f_fmt='%(message)s'):
     return logger
 
 # @profile
+
+
 def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
     pprint.pprint("   ###  #           ####   ####              ")
@@ -220,7 +223,7 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
                 # （OCRで読み取りたい情報が存在しないため.(TOSHIBA 製)）
                 i_n = str(dicomfile.InstanceNumber)
                 pix_np_array = np.array(dicomfile.pixel_array, dtype='uint8')
-                
+
                 # 予期せぬ例外を拾う
                 try:
                     if i_n == "1":
@@ -244,12 +247,12 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
                             ex_protocol = None
 
                         # out_list: 読み取ったOCRの結果
-                        out_list = [] #初期化
+                        out_list = []  # 初期化
                         out_list = ocr_funcs.ocr(np_img=pix_np_array,
-                                                prot_lang=prot_lang,
-                                                ex_protocol=ex_protocol,
-                                                use_tesser=use_tesser,
-                                                tool=tool)
+                                                 prot_lang=prot_lang,
+                                                 ex_protocol=ex_protocol,
+                                                 use_tesser=use_tesser,
+                                                 tool=tool)
 
                         # DCMファイル毎の結果を格納する。
                         data = []
@@ -273,7 +276,7 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
                                         temp_dict = {h_key: date}
                                         temp_data_dict.update(temp_dict)
-                                        
+
                                     elif h_key == "Runtime":
                                         temp_dict = {h_key: runtime}
                                         temp_data_dict.update(temp_dict)
@@ -339,14 +342,12 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
                         #         # print(e)
                         #         duplicate_data_cnt += 1
                         #         pass
-                except :
+                except:
                     logger.exception(sys.exc_info())
-                    
+
             except:
                 # ignore : pixel_arrayが存在しないとき
                 pass
-
-            
 
     # DATABASE_OCR.close()
 
@@ -373,20 +374,19 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
             assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
             pass
     DATABASE_ALL.close()
-    
+
     # CSVに出力するために改めてDBに接続する。
     DB_path = './Resources/DONUTS.db'
     conn = sqlite3.connect(DB_path)
     SQL = "select * from ALL_DATA where Runtime='" + runtime + "'"
 
-    df = pd.read_sql_query(SQL,conn)
-    
+    df = pd.read_sql_query(SQL, conn)
+
     save_name = './Resources/latest'
     file_name_json = save_name + ".json"
     file_name_csv = save_name + ".csv"
-    
-    df.to_csv(file_name_csv, header=True, index=None,encoding="shift-jis")
-    
+
+    df.to_csv(file_name_csv, header=True, index=None, encoding="shift-jis")
 
     end = time.time()
 
@@ -397,21 +397,19 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
 
 if __name__ == '__main__':
-    
-    
+
     date = datetime.date.today()
     date = date.strftime('%Y%m%d')
     runtime_number = time.time()
     runtime = date + "_" + str(runtime_number)
-    
+
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')
 
     lg = get_logger(__name__, './Resources/log.txt')
     lg.debug('ロギング 開始')
     lg.debug(runtime)
-    
-    
+
     parser = argparse.ArgumentParser(
         description="Get language of Protocol. input 'jpn' or 'eng' ")
     parser.add_argument("--lang", help="Language of Protocol.")
@@ -439,7 +437,8 @@ if __name__ == '__main__':
     # prot_lang = 'jpn'
     # use_tesser = False
 
-    main(prot_lang=prot_lang, is_dev=is_dev, use_tesser=use_tesser, runtime=runtime, logger=lg)
+    main(prot_lang=prot_lang, is_dev=is_dev,
+         use_tesser=use_tesser, runtime=runtime, logger=lg)
 
     print("End program in 10 seconds.")
     time.sleep(10)

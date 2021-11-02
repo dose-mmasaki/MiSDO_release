@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>F:\MISDO\</PublishUrl>
+    <PublishUrl>F:\MISDO\python\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -25,15 +25,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://donutsproject.sakura.ne.jp/index.html</SupportUrl>
-    <ErrorReportUrl>https://donutsproject.sakura.ne.jp/index.html</ErrorReportUrl>
+    <SupportUrl>https://misdo.org</SupportUrl>
+    <ErrorReportUrl>https://misdo.org</ErrorReportUrl>
     <TargetCulture>ja-JP</TargetCulture>
     <ProductName>MISDO</ProductName>
     <PublisherName>MISDO</PublisherName>
-    <SuiteName>MISDO_exe</SuiteName>
+    <SuiteName>MISDO_python</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>16</ApplicationRevision>
-    <ApplicationVersion>2.1.3.%2a</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>4.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -269,14 +269,24 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Resources\analyze.py" />
+    <Content Include="Resources\ChuRROs.ico" />
+    <Content Include="Resources\ChuRROs.py" />
+    <Content Include="Resources\DataBase.py" />
     <Content Include="Resources\DefaultProtocol.txt" />
+    <Content Include="Resources\DoNuTS.py" />
+    <Content Include="Resources\donuts_datasets.py" />
+    <Content Include="Resources\funcs.py" />
     <Content Include="Resources\license\Tesseract-OCR\AUTHORS" />
     <Content Include="Resources\license\Tesseract-OCR\LICENSE" />
     <Content Include="Resources\license\Tesseract-OCR\README.md" />
+    <Content Include="Resources\make_projection_data.py" />
+    <Content Include="Resources\ocr_funcs.py" />
+    <Content Include="Resources\out_csv.py" />
+    <Content Include="Resources\python-3.7.8-amd64.exe" />
     <Content Include="Resources\requirements.txt" />
     <Content Include="Resources\setup.bat" />
     <Content Include="Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl" />
-    <Content Include="Resources\moduls\Levenshtein-0.13.0-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\Pillow-8.3.1-cp37-cp37m-win_amd64.whl" />
@@ -286,24 +296,25 @@
     <Content Include="Resources\moduls\pytz-2021.1-py2.py3-none-any.whl" />
     <Content Include="Resources\moduls\six-1.16.0-py2.py3-none-any.whl" />
     <Content Include="Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl" />
+    <Content Include="Resources\show_low_data.py" />
     <Content Include="Resources\Tesseract-OCR.zip" />
     <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
     <Content Include="Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl" />
-    <Content Include="Resources\DoNuTS.zip" />
-    <Content Include="Resources\out_csv.zip" />
-    <Content Include="Resources\show_low_data.zip" />
-    <Content Include="Resources\tesseract.zip" />
-    <Content Include="Resources\make_projection_data.zip" />
+    <None Include="Resources\DoNuTS.zip" />
+    <Content Include="Resources\moduls\python-Levenshtein-0.12.2.tar.gz" />
+    <None Include="Resources\out_csv.zip" />
+    <None Include="Resources\show_low_data.zip" />
+    <None Include="Resources\tesseract.zip" />
+    <None Include="Resources\make_projection_data.zip" />
     <Content Include="Resources\PROTOCOL_PROJECTION.json" />
     <Content Include="Resources\SCANNAME_PROJECTION.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\ChuRROs.zip" />
-    <Content Include="Resources\analyze.zip" />
-    <Content Include="Resources\data.zip" />
-    <Content Include="Resources\doc\usage_32bit.pdf" />
-    <None Include="Resources\DoNuTS.ico" />
+    <None Include="Resources\ChuRROs.zip" />
+    <None Include="Resources\analyze.zip" />
+    <None Include="Resources\data.zip" />
+    <Content Include="Resources\DoNuTS.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Path_excel.txt" />
@@ -321,6 +332,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Resources\doc\" />
     <Folder Include="Resources\license\DoNuTS\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

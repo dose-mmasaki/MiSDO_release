@@ -16,6 +16,8 @@ import time
 import tkinter
 from tkinter import filedialog, messagebox
 
+sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+
 import numpy as np
 import pydicom
 from PIL import Image, ImageChops, ImageTk  # 外部ライブラリ
@@ -136,7 +138,7 @@ def make_projection(np_img, json_path):
         # ファイルを作成、書き込み
         with open(json_path, mode='wt', encoding='utf-8') as jf:
             json.dump(data, jf, ensure_ascii=False, indent=4)
-    
+
         messagebox.showinfo("完了", "追加しました。")
 
     except Exception as e:
@@ -153,7 +155,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     target = args.projection
-    
 
     if target == 'PROTOCOL':
         json_path = "./Resources/PROTOCOL_PROJECTION.json"

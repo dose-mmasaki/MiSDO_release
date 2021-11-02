@@ -550,7 +550,7 @@ namespace DoNuTS_dotNET4_0
 
         private void doNuTSについてToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"https://donutsproject.sakura.ne.jp/index.html");
+            Process.Start(@"https://misdo.org");
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

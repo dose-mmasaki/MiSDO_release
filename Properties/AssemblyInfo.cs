@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
-[assembly: AssemblyTitle("DoNuTS_python")]
-[assembly: AssemblyDescription("https://donutsproject.sakura.ne.jp/index.html")]
+[assembly: AssemblyTitle("MiSDO_python")]
+[assembly: AssemblyDescription("https://misdo.org")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MASAKI MATSUMOTO")]
-[assembly: AssemblyProduct("DoNuTS_python")]
+[assembly: AssemblyCompany("MiSDO")]
+[assembly: AssemblyProduct("MiSDO_python")]
 [assembly: AssemblyCopyright("Copyright ©  2021 MASAKI MATSUMOTO")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
