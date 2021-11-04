@@ -19,6 +19,10 @@ call pip install --no-deps .\Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl
 call pip install --no-deps .\Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl
 call pip install --no-deps .\Resources\moduls\seaborn-0.11.2-py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\cycler-0.10.0-py2.py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\kiwisolver-1.3.1-cp37-cp37m-win_amd64.whl
+call pip install --no-deps .\Resources\moduls\pyparsing-2.4.7-py2.py3-none-any.whl
+
 
 call pip install --no-deps --find-links=.\Resources\moduls python-Levenshtein
 call pip install --no-deps --find-links=.\Resources\moduls pyocr

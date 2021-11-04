@@ -30,7 +30,7 @@ namespace DoNuTS_dotNET4_0
         string db_file = @".\Resources\DONUTS.db";
 
         // 選択された tabel
-        string select_table = "";
+        //string select_table = "";
 
         // チェックボックスから代入するリスト
         public List<string> modality_list = new List<string>();
@@ -194,12 +194,12 @@ namespace DoNuTS_dotNET4_0
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            select_table = comboBox1.SelectedItem.ToString();
+            //select_table = comboBox1.SelectedItem.ToString();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            sql = "SELECT * FROM " + select_table;
+            sql = "SELECT * FROM ALL_DATA";
             try
             {
                 // DBを読み込み，表示
@@ -207,7 +207,7 @@ namespace DoNuTS_dotNET4_0
             }
             catch
             {
-                MessageBox.Show("データが存在しません.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //MessageBox.Show("データが存在しません.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -234,7 +234,7 @@ namespace DoNuTS_dotNET4_0
             }
             catch
             {
-                //ignore
+                MessageBox.Show("データが存在しません.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -301,10 +301,10 @@ namespace DoNuTS_dotNET4_0
                 using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + db_file))
                 {
 
-                    string query = "SELECT * FROM " + select_table;
+                    string query = "SELECT * FROM ALL_DATA";
 
                     SQLiteDataAdapter adapter = new SQLiteDataAdapter();
-                    adapter.TableMappings.Add(db_file, select_table);
+                    adapter.TableMappings.Add(db_file, "ALL_DATA");
                     adapter.SelectCommand = new SQLiteCommand(query, conn);
 
                     SQLiteCommandBuilder commandBuilder = new SQLiteCommandBuilder(adapter);
@@ -521,7 +521,6 @@ namespace DoNuTS_dotNET4_0
                     sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
                     sw.WriteLine(startanalyze);
                 }
-                p.WaitForExit();
             }
         }
 
@@ -575,14 +574,14 @@ namespace DoNuTS_dotNET4_0
 
         private void defaultProtocolToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process p =
-               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\DefaultProtocol.txt");
+            //System.Diagnostics.Process p =
+            //   System.Diagnostics.Process.Start("notepad.exe", @".\Resources\DefaultProtocol.txt");
         }
 
         private void scanNameToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process p =
-               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
+            //System.Diagnostics.Process p =
+            //   System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
         }
 
 
@@ -613,14 +612,14 @@ namespace DoNuTS_dotNET4_0
 
         private void defaultProtocolToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string target = "PROTOCOL";
-            runMakeProjection(target);
+            //string target = "PROTOCOL";
+            //runMakeProjection(target);
         }
 
         private void scanNameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string target = "SCANNAME";
-            runMakeProjection(target);
+            //string target = "SCANNAME";
+            //runMakeProjection(target);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -631,6 +630,35 @@ namespace DoNuTS_dotNET4_0
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             selected_column = radioButton2.Text;
+        }
+
+        private void defaultProtocolToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            string target = "PROTOCOL";
+            runMakeProjection(target);
+        }
+
+        private void scanNameToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            string target = "SCANNAME";
+            runMakeProjection(target);
+        }
+
+        private void tesseractToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void defaultProtocolToolStripMenuItem_Click_2(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\DefaultProtocol.txt");
+        }
+
+        private void scanNameToolStripMenuItem_Click_2(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
         }
     }
 }
