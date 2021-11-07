@@ -15,10 +15,10 @@ using System.Diagnostics;
 
 namespace DoNuTS_dotNET4_0
 {
-    public partial class Menu : Form
+    public partial class MiSDO : Form
     {
 
-        public Menu()
+        public MiSDO()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace DoNuTS_dotNET4_0
         string sql = "";
 
         // DBへのパス
-        string db_file = @".\Resources\DONUTS.db";
+        string db_file = @".\Resources\MiSDO.db";
 
         // 選択された tabel
         //string select_table = "";

@@ -15,7 +15,7 @@ namespace DoNuTS_dotNET4_0
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Menu());
+            Application.Run(new MiSDO());
         }
     }
 }

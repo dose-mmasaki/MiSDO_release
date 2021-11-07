@@ -362,3 +362,5 @@ Resources/log.txt
 *.zip
 Resources/moduls/Levenshtein-0.13.0-cp37-cp37m-win_amd64.whl
 *.whl
+*.ipynb
+*.db

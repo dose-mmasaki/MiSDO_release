@@ -5,9 +5,9 @@ class WriteDB():
     def __init__(self, MODALITY: str, is_dev):
         self.MODALITY = MODALITY
         if is_dev:
-            self.DBNAME = 'C:/Users/Oita Lab/source/repos/DoNuTS_dotNET4_0/Resources/DONUTS.db'
+            self.DBNAME = 'C:/Users/Oita Lab/source/repos/DoNuTS_dotNET4_0/Resources/MiSDO.db'
         else:
-            self.DBNAME = './Resources/DONUTS.db'
+            self.DBNAME = './Resources/MiSDO.db'
         self.MODALITY = MODALITY
 
         self.conn = sqlite3.connect(self.DBNAME)

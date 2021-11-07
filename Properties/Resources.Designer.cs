@@ -63,9 +63,39 @@ namespace DoNuTS_dotNET4_0.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap ChuRROs70 {
+            get {
+                object obj = ResourceManager.GetObject("ChuRROs70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap DoNuTS {
             get {
                 object obj = ResourceManager.GetObject("DoNuTS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap DoNuTS70 {
+            get {
+                object obj = ResourceManager.GetObject("DoNuTS70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap misdo_ロゴ候補1 {
+            get {
+                object obj = ResourceManager.GetObject("misdo ロゴ候補1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

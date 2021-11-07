@@ -16,7 +16,7 @@ SQLを引数にCSVを出力する
 
 def main(SQL):
 
-    DB_path = './Resources/DONUTS.db'
+    DB_path = './Resources/MiSDO.db'
     conn = sqlite3.connect(DB_path)
 
     df = pd.read_sql_query(SQL, conn)

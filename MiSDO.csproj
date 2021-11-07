@@ -28,11 +28,11 @@
     <SupportUrl>https://misdo.org</SupportUrl>
     <ErrorReportUrl>https://misdo.org</ErrorReportUrl>
     <TargetCulture>ja-JP</TargetCulture>
-    <ProductName>MISDO</ProductName>
-    <PublisherName>MISDO</PublisherName>
-    <SuiteName>MISDO_python</SuiteName>
+    <ProductName>M!SDO</ProductName>
+    <PublisherName>MiSDO</PublisherName>
+    <SuiteName>M!SDO_python</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>4.2.1.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -95,7 +95,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\DoNuTS.ico</ApplicationIcon>
+    <ApplicationIcon>misdoIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -269,18 +269,22 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="misdoIcon.ico" />
     <Content Include="Resources\analyze.py" />
     <Content Include="Resources\ChuRROs.ico" />
     <Content Include="Resources\ChuRROs.py" />
+    <None Include="Resources\ChuRROs70.png" />
     <Content Include="Resources\DataBase.py" />
     <Content Include="Resources\DefaultProtocol.txt" />
     <Content Include="Resources\DoNuTS.py" />
+    <None Include="Resources\DoNuTS70.png" />
     <Content Include="Resources\donuts_datasets.py" />
     <Content Include="Resources\funcs.py" />
     <Content Include="Resources\license\Tesseract-OCR\AUTHORS" />
     <Content Include="Resources\license\Tesseract-OCR\LICENSE" />
     <Content Include="Resources\license\Tesseract-OCR\README.md" />
     <Content Include="Resources\make_projection_data.py" />
+    <None Include="Resources\misdo ロゴ候補1.png" />
     <Content Include="Resources\ocr_funcs.py" />
     <Content Include="Resources\out_csv.py" />
     <Content Include="Resources\python-3.7.8-amd64.exe" />

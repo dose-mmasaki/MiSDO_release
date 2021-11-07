@@ -376,7 +376,7 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
     DATABASE_ALL.close()
 
     # CSVに出力するために改めてDBに接続する。
-    DB_path = './Resources/DONUTS.db'
+    DB_path = './Resources/MiSDO.db'
     conn = sqlite3.connect(DB_path)
     SQL = "select * from ALL_DATA where Runtime='" + runtime + "'"
 

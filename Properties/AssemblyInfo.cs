@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("https://misdo.org")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MiSDO")]
-[assembly: AssemblyProduct("MiSDO_python")]
+[assembly: AssemblyProduct("M!SDO_python")]
 [assembly: AssemblyCopyright("Copyright ©  2021 MASAKI MATSUMOTO")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

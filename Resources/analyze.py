@@ -31,7 +31,7 @@ def calc_BMI(x : list):
     return result_list_x, result_list_y
 
 def main(sql:str):
-    DB_path = './Resources/DONUTS.db'
+    DB_path = './Resources/MiSDO.db'
     # DB_path = 'C:/Users/Oita Lab/AppData/Local/Apps/2.0/HH63CN6R.JKL/BZNGD76C.RH4/donu..tion_c603a5f247abdeaf_0002.0001_c5b1a55681a2c0db/Resources/DONUTS.db'
     conn = sqlite3.connect(DB_path)
     cursor = conn.cursor()
