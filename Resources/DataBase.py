@@ -5,7 +5,7 @@ class WriteDB():
     def __init__(self, MODALITY: str, is_dev):
         self.MODALITY = MODALITY
         if is_dev:
-            self.DBNAME = 'C:/Users/Oita Lab/source/repos/DoNuTS_dotNET4_0/Resources/MiSDO.db'
+            self.DBNAME = 'C:/Users/pudu7o39/source/repos/DoNuTS_dotNET4_0/Resources/MiSDO.db'
         else:
             self.DBNAME = './Resources/MiSDO.db'
         self.MODALITY = MODALITY
@@ -195,7 +195,6 @@ class WriteDB():
                                 """
                                 (
                                     PRIMARY_KEY TEXT NOT NULL PRIMARY KEY,
-                                    WrittenDate TEXT NOT NULL,
                                     Runtime TEXT NOT NULL,
                                     Path TEXT NOT NULL,
                                     Identified_Modality TEXT NOT NULL,

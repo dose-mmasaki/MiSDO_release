@@ -30,7 +30,7 @@ import pprint
 import gc
 import sqlite3
 
-sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import pydicom
 from tqdm import tqdm
@@ -272,10 +272,11 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
                                         temp_data_dict.update(temp_dict)
 
                                     elif h_key == 'WrittenDate':
-                                        date = datetime.date.today().strftime('%Y%m%d')
+                                        # date = datetime.date.today().strftime('%Y%m%d')
 
-                                        temp_dict = {h_key: date}
-                                        temp_data_dict.update(temp_dict)
+                                        # temp_dict = {h_key: date}
+                                        # temp_data_dict.update(temp_dict)
+                                        pass
 
                                     elif h_key == "Runtime":
                                         temp_dict = {h_key: runtime}
@@ -397,11 +398,8 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
 
 if __name__ == '__main__':
-
-    date = datetime.date.today()
-    date = date.strftime('%Y%m%d')
-    runtime_number = time.time()
-    runtime = date + "_" + str(runtime_number)
+    # いつ実行したかを明確にするためにruntimeを定義する
+    runtime = funcs.returnRuntime()
 
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')
@@ -432,7 +430,7 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # FIXME:debug
+    # # FIXME:debug
     # is_dev = 'yes'
     # prot_lang = 'jpn'
     # use_tesser = False

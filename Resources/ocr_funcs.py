@@ -1,17 +1,18 @@
 import difflib
-import glob
-import os
-import sys
-import re
-import json
 import gc
+import glob
+import json
+import os
+import re
+import sys
+
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import Levenshtein
 import numpy as np
 import pydicom
 import pyocr
 from PIL import Image, ImageChops, ImageFilter
-
 
 digits_dict = {
     ".": [3, 3, 0, 0, 0, 0],

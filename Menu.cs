@@ -70,7 +70,7 @@ namespace DoNuTS_dotNET4_0
 
                 using (StreamWriter sw = p.StandardInput)
                 {
-                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                     sw.WriteLine(startDoNuTS);
                 }
                 p.WaitForExit();
@@ -111,7 +111,7 @@ namespace DoNuTS_dotNET4_0
 
                 using (StreamWriter sw = p.StandardInput)
                 {
-                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                     sw.WriteLine(startChuRRos);
                 }
                 p.WaitForExit();
@@ -391,7 +391,7 @@ namespace DoNuTS_dotNET4_0
 
                 using (StreamWriter sw = p.StandardInput)
                 {
-                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                     sw.WriteLine(start_show);
                 }
                 p.WaitForExit();
@@ -434,8 +434,8 @@ namespace DoNuTS_dotNET4_0
 
             try
             {
-                sql = "--sql \"" + sql + "\"";
-                string start_out_csv = "call " + py37 + " " + str_to_out_csv + " " + sql;
+                string args = " --sql " + '"' + sql + '"';
+                string start_out_csv = "call " + py37 + " " + str_to_out_csv + args;
 
                 Process p = new Process();
                 ProcessStartInfo info = new ProcessStartInfo();
@@ -448,7 +448,7 @@ namespace DoNuTS_dotNET4_0
 
                 using (StreamWriter sw = p.StandardInput)
                 {
-                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                     sw.WriteLine(start_out_csv);
                 }
                 p.WaitForExit();
@@ -476,7 +476,7 @@ namespace DoNuTS_dotNET4_0
                 }
                 catch
                 {
-                    MessageBox.Show("Excelを開けません.\nファイル→設定→PathからPathを変更してください.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Excelを開けません.\nファイル→Setting→PathからPathを変更してください.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
         }
@@ -518,7 +518,7 @@ namespace DoNuTS_dotNET4_0
 
                 using (StreamWriter sw = p.StandardInput)
                 {
-                    sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                    sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                     sw.WriteLine(startanalyze);
                 }
             }
@@ -604,7 +604,7 @@ namespace DoNuTS_dotNET4_0
 
             using (StreamWriter sw = p.StandardInput)
             {
-                sw.WriteLine("call .\\donuts_env\\Scripts\\activate");
+                sw.WriteLine("call .\\misdo_env\\Scripts\\activate");
                 sw.WriteLine(start_make_projection);
             }
             p.WaitForExit();
@@ -634,14 +634,12 @@ namespace DoNuTS_dotNET4_0
 
         private void defaultProtocolToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            string target = "PROTOCOL";
-            runMakeProjection(target);
+            
         }
 
         private void scanNameToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            string target = "SCANNAME";
-            runMakeProjection(target);
+            
         }
 
         private void tesseractToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -659,6 +657,40 @@ namespace DoNuTS_dotNET4_0
         {
             System.Diagnostics.Process p =
                System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
+        }
+
+        private void defaultProtocolToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            string target = "PROTOCOL";
+            runMakeProjection(target);
+        }
+
+        private void scanNameToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            string target = "SCANNAME";
+            runMakeProjection(target);
+        }
+
+        private void veiwToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void defaultProtocolToolStripMenuItem2_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\PROTOCOL_PROJECTION.json");
+        }
+
+        private void scanNameToolStripMenuItem2_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\SCANNAME_PROJECTION.json");
+        }
+
+        private void registerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

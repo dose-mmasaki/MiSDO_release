@@ -17,20 +17,16 @@ DoNuTS
 
 """
 import argparse
-import datetime
-import gc
-import json
 import logging
 import os
 import pprint
-# import random
 import sqlite3
 import sys
 import time
 import tkinter as tk
 from tkinter import messagebox
 
-sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import pandas as pd
 import pydicom
@@ -41,7 +37,6 @@ import DataBase
 import donuts_datasets
 import funcs
 
-sys.path.append("./")
 
 
 def get_logger(logger_name, log_file, f_fmt='%(message)s'):
@@ -306,10 +301,7 @@ def main(MODALITY, logger, runtime):
 
 if __name__ == '__main__':
     # いつ実行したかを明確にするためにruntimeを定義する
-    date = datetime.date.today()
-    date = date.strftime('%Y%m%d')
-    runtime_number = time.time()
-    runtime = date + "_" + str(runtime_number)
+    runtime = funcs.returnRuntime()
 
     if os.path.isfile('./Resources/log.txt'):
         os.remove('./Resources/log.txt')

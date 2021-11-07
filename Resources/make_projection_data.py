@@ -16,7 +16,7 @@ import time
 import tkinter
 from tkinter import filedialog, messagebox
 
-sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import numpy as np
 import pydicom

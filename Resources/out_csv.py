@@ -2,7 +2,7 @@ import sys
 import os
 import sqlite3
 
-sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import pandas as pd
 # import tkinter as tk

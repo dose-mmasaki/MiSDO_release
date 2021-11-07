@@ -3,10 +3,10 @@ call .\Resources\python-3.7.8-amd64.exe
 call powershell -command "Expand-Archive .\Resources\Tesseract-OCR.zip .\Resources"
 
 
-call mkdir donuts_env
+call mkdir misdo_env
 call mkdir .\Resources\temp
-call py -3.7 -m venv donuts_env
-call .\donuts_env\Scripts\activate
+call py -3.7 -m venv misdo_env
+call .\misdo_env\Scripts\activate
 call pip install --no-deps .\Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl
 call pip install --no-deps .\Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl

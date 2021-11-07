@@ -2,7 +2,7 @@ import argparse
 import sqlite3
 import sys,os
 
-sys.path.append(os.getcwd() + "\\donuts_env\\Lib\\site-packages")
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 # import pandas as pd
 import numpy as np

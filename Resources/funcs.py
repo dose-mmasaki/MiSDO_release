@@ -1,8 +1,12 @@
 import datetime
 import glob
-import sys,os
+import os
+import sys
+import time
 import tkinter as tk
 from tkinter import filedialog, messagebox
+
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 import pydicom
 from tqdm import tqdm
@@ -880,10 +884,11 @@ def _setdefault(rdsr:dict, all_dict:dict)-> dict:
 
 def writeHeader(m, temp_dict:dict, _modality:str, path:str):
     for data_key in temp_dict.keys():
-        if data_key == "WrittenDate":
-            date = datetime.date.today()
-            date = date.strftime('%Y%m%d')
-            temp_dict[data_key] = date
+        if data_key == "WrittenDate": # Runtimeを改善したため、WrittenDateを消去した。
+            # date = datetime.date.today()
+            # date = date.strftime('%Y%m%d')
+            # temp_dict[data_key] = date
+            pass
             
         elif data_key == "Path":
             temp_dict[data_key] = path
@@ -916,3 +921,9 @@ def writeDB(modality:str, result:list):
             duplicate_data_cnt+=1
     DATABASE.close()
     print("{} : new {} files, duplicated {} files".format(modality, new_data_cnt, duplicate_data_cnt))
+
+def returnRuntime():
+    # いつ実行したかを明確にするためにruntimeを定義する
+    runtime = datetime.datetime.fromtimestamp(time.time())
+    runtime = runtime.strftime('%Y/%m/%d/%H:%M')
+    return runtime
