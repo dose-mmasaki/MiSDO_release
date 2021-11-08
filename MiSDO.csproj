@@ -32,7 +32,7 @@
     <PublisherName>MiSDO</PublisherName>
     <SuiteName>M!SDO_python</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>4.2.2.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -277,6 +277,9 @@
     <Content Include="Resources\DataBase.py" />
     <Content Include="Resources\DefaultProtocol.txt" />
     <Content Include="Resources\DoNuTS.py" />
+    <Content Include="Resources\doc\MiSDO利用書Python.pdf" />
+    <Content Include="Resources\license\DoNuTS\LICENSE" />
+    <Content Include="Resources\license\MiSDO\LICENSE" />
     <None Include="Resources\DoNuTS70.png" />
     <Content Include="Resources\donuts_datasets.py" />
     <Content Include="Resources\funcs.py" />
@@ -338,10 +341,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\doc\" />
-    <Folder Include="Resources\license\DoNuTS\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -564,7 +564,7 @@ namespace DoNuTS_dotNET4_0
 
         private void usageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@".\Resources\doc\usage_py.pdf");
+            Process.Start(@".\Resources\doc\MiSDO利用書Python.pdf");
         }
 
         private void tesseractToolStripMenuItem_Click(object sender, EventArgs e)
