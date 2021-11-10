@@ -276,14 +276,11 @@ def main(MODALITY, logger, runtime):
                     # ignore
                     pass
 
-    DATABASE_ALL.close()
-
-    # CSVに出力するために改めてDBに接続する。
-    DB_path = './Resources/MiSDO.db'
-    conn = sqlite3.connect(DB_path)
+    # CSVに出力するためにDBからdataframeに出力。
     SQL = "select * from ALL_DATA where Runtime='" + runtime + "'"
-
-    df = pd.read_sql_query(SQL, conn)
+    df = DATABASE_ALL.export_pd(sql=SQL)
+    # close DB
+    DATABASE_ALL.close()
 
     save_name = './Resources/latest'
     file_name_json = save_name + ".json"

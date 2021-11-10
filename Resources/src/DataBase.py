@@ -1,7 +1,11 @@
 import sqlite3
+import sys,os
+sys.path.append(os.getcwd() + "\\misdo_env\\Lib\\site-packages")
 
 
-class WriteDB():
+import pandas as pd
+
+class DB():
     def __init__(self, MODALITY: str, is_dev):
         self.MODALITY = MODALITY
         if is_dev:
@@ -284,7 +288,7 @@ class WriteDB():
         self.conn.execute(sql, data)
         self.conn.commit()
 
-    def main(self, data: list):
+    def write(self, data: list):
         self.insertdb(data=data)
 
     def query(self, column: str, key: str):
@@ -309,6 +313,16 @@ class WriteDB():
         
         cursor.execute(sql)
         self.conn.commit()
+
+    def fetchall(self, sql):
+        self.cursor.execute(sql)
+        # data[list] [target, PatientSize, PatientWeight]
+        tuple_data = self.cursor.fetchall()
+        return tuple_data
+
+    def export_pd(self, sql):
+        df = pd.read_sql_query(sql, self.conn)
+        return df
 
     def close(self):
         self.conn.close()

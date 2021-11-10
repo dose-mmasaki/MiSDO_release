@@ -356,7 +356,7 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
     # ALL_DATA table に書き込む
     all_dict = donuts_datasets.return_json_temprate(MODALITY="Auto")
-    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=is_dev)
+    DATABASE_ALL = DataBase.DB(MODALITY="ALL_DATA", is_dev=is_dev)
     for each_data in all_data:
 
         # all_dict のvalueを空にする
@@ -368,20 +368,18 @@ def main(prot_lang: str, is_dev, use_tesser, runtime, logger):
 
             # to DB
             write_list = [v for v in all_dict.values()]
-            DATABASE_ALL.main(data=write_list)
+            DATABASE_ALL.write(data=write_list)
             new_data_cnt += 1
         except Exception as e:
             duplicate_data_cnt += 1
             assert "PRIMARY_KEY" in e.args[0], "DB writing Error, {}".format(e)
             pass
-    DATABASE_ALL.close()
 
-    # CSVに出力するために改めてDBに接続する。
-    DB_path = './Resources/MiSDO.db'
-    conn = sqlite3.connect(DB_path)
+    # CSVに出力するためにDBからdataframeに出力。
     SQL = "select * from ALL_DATA where Runtime='" + runtime + "'"
-
-    df = pd.read_sql_query(SQL, conn)
+    df = DATABASE_ALL.export_pd(sql=SQL)
+    # close DB
+    DATABASE_ALL.close()
 
     save_name = './Resources/latest'
     file_name_json = save_name + ".json"
@@ -430,10 +428,10 @@ if __name__ == '__main__':
     else:
         is_dev = False
 
-    # # FIXME:debug
+    # FIXME:debug
     # is_dev = 'yes'
-    # prot_lang = 'jpn'
-    # use_tesser = False
+    prot_lang = 'jpn'
+    use_tesser = False
 
     main(prot_lang=prot_lang, is_dev=is_dev,
          use_tesser=use_tesser, runtime=runtime, logger=lg)
