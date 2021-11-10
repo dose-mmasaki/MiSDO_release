@@ -507,12 +507,13 @@ namespace DoNuTS_dotNET4_0
 
                 p.StartInfo = info;
                 p.Start();
+                selected_column = "MeanCTDIvol,DLP";
 
-                sql = sql.Replace("*", selected_column + ",PatientSize,PatientWeight");
+                string replaced_sql = sql.Replace("*", selected_column + ",PatientSize,PatientWeight");
 
                 Console.WriteLine(sql);
 
-                string args = " --sql " + '"' + sql + '"';
+                string args = " --sql " + '"' + replaced_sql + '"';
 
                 string startanalyze = "call " + py37 + " " + str_to_analyze + args;
 
