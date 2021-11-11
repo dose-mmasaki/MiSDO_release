@@ -96,7 +96,7 @@ def main(MODALITY, logger, runtime):
     start = time.time()
 
     # データベースを呼び出す。
-    DATABASE_ALL = DataBase.WriteDB(MODALITY="ALL_DATA", is_dev=False)
+    DATABASE_ALL = DataBase.DB(MODALITY="ALL_DATA", is_dev=False)
 
     # データの, 新規/重複の数をカウントする
     new_data_cnt = 0
@@ -167,7 +167,7 @@ def main(MODALITY, logger, runtime):
                         try:
                             write_list = [v for v in temp_dict.values()]
                             # Write DB
-                            DATABASE_ALL.main(data=write_list)
+                            DATABASE_ALL.write(data=write_list)
                             # 新規データのカウント
                             new_data_cnt += 1
 
@@ -243,7 +243,7 @@ def main(MODALITY, logger, runtime):
                                     write_list = [
                                         v for v in temp_dict.values()]
                                     # Write DB
-                                    DATABASE_ALL.main(data=write_list)
+                                    DATABASE_ALL.write(data=write_list)
                                     # 新規データのカウント
                                     new_data_cnt += 1
                                 except Exception as e:
