@@ -33,7 +33,7 @@
     <SuiteName>M!SDO_python</SuiteName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>4.2.2.%2a</ApplicationVersion>
+    <ApplicationVersion>4.2.3.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -270,26 +270,17 @@
       <LastGenOutput>path_setting.Designer.cs</LastGenOutput>
     </None>
     <Content Include="misdoIcon.ico" />
-    <Content Include="Resources\analyze.py" />
     <Content Include="Resources\ChuRROs.ico" />
-    <Content Include="Resources\ChuRROs.py" />
     <None Include="Resources\ChuRROs70.png" />
-    <Content Include="Resources\DataBase.py" />
     <Content Include="Resources\DefaultProtocol.txt" />
-    <Content Include="Resources\DoNuTS.py" />
     <Content Include="Resources\doc\MiSDO利用書Python.pdf" />
     <Content Include="Resources\license\DoNuTS\LICENSE" />
     <Content Include="Resources\license\MiSDO\LICENSE" />
     <None Include="Resources\DoNuTS70.png" />
-    <Content Include="Resources\donuts_datasets.py" />
-    <Content Include="Resources\funcs.py" />
     <Content Include="Resources\license\Tesseract-OCR\AUTHORS" />
     <Content Include="Resources\license\Tesseract-OCR\LICENSE" />
     <Content Include="Resources\license\Tesseract-OCR\README.md" />
-    <Content Include="Resources\make_projection_data.py" />
     <None Include="Resources\misdo ロゴ候補1.png" />
-    <Content Include="Resources\ocr_funcs.py" />
-    <Content Include="Resources\out_csv.py" />
     <Content Include="Resources\python-3.7.8-amd64.exe" />
     <Content Include="Resources\requirements.txt" />
     <Content Include="Resources\setup.bat" />
@@ -303,7 +294,16 @@
     <Content Include="Resources\moduls\pytz-2021.1-py2.py3-none-any.whl" />
     <Content Include="Resources\moduls\six-1.16.0-py2.py3-none-any.whl" />
     <Content Include="Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl" />
-    <Content Include="Resources\show_low_data.py" />
+    <Content Include="Resources\src\analyze.py" />
+    <Content Include="Resources\src\ChuRROs.py" />
+    <Content Include="Resources\src\DataBase.py" />
+    <Content Include="Resources\src\DoNuTS.py" />
+    <Content Include="Resources\src\donuts_datasets.py" />
+    <Content Include="Resources\src\funcs.py" />
+    <Content Include="Resources\src\make_projection_data.py" />
+    <Content Include="Resources\src\ocr_funcs.py" />
+    <Content Include="Resources\src\out_csv.py" />
+    <Content Include="Resources\src\show_low_data.py" />
     <Content Include="Resources\Tesseract-OCR.zip" />
     <Content Include="Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl" />
     <Content Include="Resources\moduls\seaborn-0.11.2-py3-none-any.whl" />
@@ -315,6 +315,10 @@
     <Content Include="Resources\moduls\pyparsing-2.4.7-py2.py3-none-any.whl" />
     <None Include="Resources\out_csv.zip" />
     <None Include="Resources\show_low_data.zip" />
+    <None Include="Resources\src\__pycache__\DataBase.cpython-37.pyc" />
+    <None Include="Resources\src\__pycache__\donuts_datasets.cpython-37.pyc" />
+    <None Include="Resources\src\__pycache__\funcs.cpython-37.pyc" />
+    <None Include="Resources\src\__pycache__\ocr_funcs.cpython-37.pyc" />
     <None Include="Resources\tesseract.zip" />
     <None Include="Resources\make_projection_data.zip" />
     <Content Include="Resources\PROTOCOL_PROJECTION.json" />

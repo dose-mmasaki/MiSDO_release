@@ -54,7 +54,7 @@ namespace DoNuTS_dotNET4_0
 
             else
             {
-                string str_to_donuts = @".\Resources\DoNuTS.py";
+                string str_to_donuts = @".\Resources\src\DoNuTS.py";
 
                 string startDoNuTS = "call " + py37 + " " + str_to_donuts + " --modality " + askModality.modality;
                 
@@ -93,7 +93,7 @@ namespace DoNuTS_dotNET4_0
             }
             else
             {
-                string str_to_churros = @".\Resources\ChuRROs.py";
+                string str_to_churros = @".\Resources\src\ChuRROs.py";
                 // 引数を代入
                 string args = "--lang " + frm.language + " --tesser " + frm.use_tesser;
 
@@ -374,7 +374,7 @@ namespace DoNuTS_dotNET4_0
             else
             {
 
-                string str_to_show = @".\Resources\show_low_data.py";
+                string str_to_show = @".\Resources\src\show_low_data.py";
 
                 string arg = "--path \"" + LOWPATH + "\"";
                 string start_show = "call " + py37 + " " + str_to_show + " " + arg;
@@ -430,7 +430,7 @@ namespace DoNuTS_dotNET4_0
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string str_to_out_csv = @".\Resources\out_csv.py";
+            string str_to_out_csv = @".\Resources\src\out_csv.py";
 
             try
             {
@@ -483,9 +483,11 @@ namespace DoNuTS_dotNET4_0
 
         private void button9_Click(object sender, EventArgs e)
         {
+            selected_column = "MeanCTDIvol,DLP";
             if (selected_column == "")
             {
-                MessageBox.Show("CTDIvol または DLP を選択してください。", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //MessageBox.Show("CTDIvol または DLP を選択してください。", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //pass
             }
 
             else if (sql == "")
@@ -495,7 +497,7 @@ namespace DoNuTS_dotNET4_0
 
             else
             {
-                string str_to_analyze = @".\Resources\analyze.py";
+                string str_to_analyze = @".\Resources\src\analyze.py";
 
 
 
@@ -507,15 +509,19 @@ namespace DoNuTS_dotNET4_0
 
                 p.StartInfo = info;
                 p.Start();
-                selected_column = "MeanCTDIvol,DLP";
+                
 
-                string replaced_sql = sql.Replace("*", selected_column + ",PatientSize,PatientWeight");
+                string replaced_sql = sql.Replace("SELECT *", "SELECT MeanCTDIvol,DLP,PatientSize,PatientWeight");
 
-                Console.WriteLine(sql);
+                //Console.WriteLine(sql);
 
                 string args = " --sql " + '"' + replaced_sql + '"';
 
                 string startanalyze = "call " + py37 + " " + str_to_analyze + args;
+
+                ////dev
+                //MessageBox.Show(sql);
+                //MessageBox.Show(startanalyze);
 
                 using (StreamWriter sw = p.StandardInput)
                 {
@@ -525,11 +531,11 @@ namespace DoNuTS_dotNET4_0
             }
         }
 
-        private void scanNameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process p =
-               System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
-        }
+        //private void scanNameToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    System.Diagnostics.Process p =
+        //       System.Diagnostics.Process.Start("notepad.exe", @".\Resources\Tesseract-OCR\tessdata\configs\digits");
+        //}
 
         private void button10_Click(object sender, EventArgs e)
         {
@@ -588,7 +594,7 @@ namespace DoNuTS_dotNET4_0
 
         private void runMakeProjection(string target)
         {
-            string str_to_make_projection = @".\Resources\make_projection_data.py";
+            string str_to_make_projection = @".\Resources\src\make_projection_data.py";
             // 引数を代入
             string arg = "--projection " + target;
 
@@ -623,25 +629,25 @@ namespace DoNuTS_dotNET4_0
             //runMakeProjection(target);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            selected_column = radioButton1.Text;
-        }
+        //private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    selected_column = radioButton1.Text;
+        //}
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            selected_column = radioButton2.Text;
-        }
+        //private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    selected_column = radioButton2.Text;
+        //}
 
-        private void defaultProtocolToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
+        //private void defaultProtocolToolStripMenuItem2_Click(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
-        private void scanNameToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
+        //private void scanNameToolStripMenuItem2_Click(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
         private void tesseractToolStripMenuItem2_Click(object sender, EventArgs e)
         {

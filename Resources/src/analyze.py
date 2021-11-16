@@ -177,18 +177,23 @@ def main(sql:str, logger):
         figure_head_ctdi_bmi = sns.scatterplot(ax=axes2[0][0], x=_BMI_ctdi_Head, y=_ctdi_Head)
         figure_head_ctdi_bmi.set_ylabel(ylabel1)
         figure_head_ctdi_bmi.set_xlabel("CTDI_BMI")
+        figure_head_ctdi_bmi.set_title("Head")
         
         
         # Body ctdi_BMI
         figure_body_ctdi_bmi = sns.scatterplot(ax=axes2[0][1], x=_BMI_ctdi_Body, y=_ctdi_Body)
         figure_body_ctdi_bmi.set_ylabel(ylabel1)
         figure_body_ctdi_bmi.set_xlabel("CTDI_BMI")
+        figure_body_ctdi_bmi.set_title("Body")
+
         
         
         # Unknown ctdi_BMI
         figure_unknown_ctdi_bmi = sns.scatterplot(ax=axes2[0][2], x=_BMI_ctdi_unknown, y=_ctdi_unknown)
         figure_unknown_ctdi_bmi.set_ylabel(ylabel1)
         figure_unknown_ctdi_bmi.set_xlabel("CTDI_BMI")
+        figure_unknown_ctdi_bmi.set_title("Unknown")
+
         
         # Head dlp_BMI
         figure_head_dlp_bmi = sns.scatterplot(ax=axes2[1][0], x=_BMI_dlp_Head, y=_dlp_Head)
@@ -232,6 +237,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     sql = args.sql
-    sql = "SELECT MeanCTDIvol,DLP,PatientSize,PatientWeight FROM ALL_DATA" #FIXME : dev
+    # sql = "SELECT MeanCTDIvol,DLP,PatientSize,PatientWeight FROM ALL_DATA" #FIXME : dev
 
     main(sql=sql, logger=lg)

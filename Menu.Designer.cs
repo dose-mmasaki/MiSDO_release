@@ -30,7 +30,7 @@ namespace DoNuTS_dotNET4_0
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MiSDO));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +41,12 @@ namespace DoNuTS_dotNET4_0
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.終了ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeProjectionDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultProtocolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.veiwToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultProtocolToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanNameToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tesseractToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,19 +72,11 @@ namespace DoNuTS_dotNET4_0
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.button9 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button10 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.defaultProtocolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.veiwToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.defaultProtocolToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.scanNameToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -100,7 +98,7 @@ namespace DoNuTS_dotNET4_0
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1210, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1102, 29);
             this.menuStrip1.TabIndex = 46;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,7 +120,7 @@ namespace DoNuTS_dotNET4_0
             // setUpToolStripMenuItem
             // 
             this.setUpToolStripMenuItem.Name = "setUpToolStripMenuItem";
-            this.setUpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setUpToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.setUpToolStripMenuItem.Text = "Setup";
             this.setUpToolStripMenuItem.Click += new System.EventHandler(this.setUpToolStripMenuItem_Click);
             // 
@@ -133,7 +131,7 @@ namespace DoNuTS_dotNET4_0
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
             this.設定ToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl + E";
             this.設定ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.設定ToolStripMenuItem.Text = "Setting";
             // 
             // pathToolStripMenuItem
@@ -154,14 +152,14 @@ namespace DoNuTS_dotNET4_0
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 6);
             // 
             // 終了ToolStripMenuItem
             // 
             this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
             this.終了ToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl + X";
             this.終了ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.終了ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.終了ToolStripMenuItem.Text = "Exit";
             this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
             // 
@@ -173,6 +171,54 @@ namespace DoNuTS_dotNET4_0
             this.makeProjectionDataToolStripMenuItem.Name = "makeProjectionDataToolStripMenuItem";
             this.makeProjectionDataToolStripMenuItem.Size = new System.Drawing.Size(132, 25);
             this.makeProjectionDataToolStripMenuItem.Text = "Make Projection Data";
+            // 
+            // registerToolStripMenuItem
+            // 
+            this.registerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultProtocolToolStripMenuItem1,
+            this.scanNameToolStripMenuItem1});
+            this.registerToolStripMenuItem.Name = "registerToolStripMenuItem";
+            this.registerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.registerToolStripMenuItem.Text = "Register";
+            this.registerToolStripMenuItem.Click += new System.EventHandler(this.registerToolStripMenuItem_Click);
+            // 
+            // defaultProtocolToolStripMenuItem1
+            // 
+            this.defaultProtocolToolStripMenuItem1.Name = "defaultProtocolToolStripMenuItem1";
+            this.defaultProtocolToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.defaultProtocolToolStripMenuItem1.Text = "Default Protocol";
+            this.defaultProtocolToolStripMenuItem1.Click += new System.EventHandler(this.defaultProtocolToolStripMenuItem1_Click_1);
+            // 
+            // scanNameToolStripMenuItem1
+            // 
+            this.scanNameToolStripMenuItem1.Name = "scanNameToolStripMenuItem1";
+            this.scanNameToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.scanNameToolStripMenuItem1.Text = "ScanName";
+            this.scanNameToolStripMenuItem1.Click += new System.EventHandler(this.scanNameToolStripMenuItem1_Click_1);
+            // 
+            // veiwToolStripMenuItem
+            // 
+            this.veiwToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultProtocolToolStripMenuItem2,
+            this.scanNameToolStripMenuItem2});
+            this.veiwToolStripMenuItem.Name = "veiwToolStripMenuItem";
+            this.veiwToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.veiwToolStripMenuItem.Text = "View";
+            this.veiwToolStripMenuItem.Click += new System.EventHandler(this.veiwToolStripMenuItem_Click);
+            // 
+            // defaultProtocolToolStripMenuItem2
+            // 
+            this.defaultProtocolToolStripMenuItem2.Name = "defaultProtocolToolStripMenuItem2";
+            this.defaultProtocolToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
+            this.defaultProtocolToolStripMenuItem2.Text = "Default Protocol";
+            this.defaultProtocolToolStripMenuItem2.Click += new System.EventHandler(this.defaultProtocolToolStripMenuItem2_Click_1);
+            // 
+            // scanNameToolStripMenuItem2
+            // 
+            this.scanNameToolStripMenuItem2.Name = "scanNameToolStripMenuItem2";
+            this.scanNameToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
+            this.scanNameToolStripMenuItem2.Text = "ScanName";
+            this.scanNameToolStripMenuItem2.Click += new System.EventHandler(this.scanNameToolStripMenuItem2_Click_1);
             // 
             // tesseractToolStripMenuItem2
             // 
@@ -210,14 +256,14 @@ namespace DoNuTS_dotNET4_0
             // doNuTSについてToolStripMenuItem
             // 
             this.doNuTSについてToolStripMenuItem.Name = "doNuTSについてToolStripMenuItem";
-            this.doNuTSについてToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.doNuTSについてToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.doNuTSについてToolStripMenuItem.Text = "About";
             this.doNuTSについてToolStripMenuItem.Click += new System.EventHandler(this.doNuTSについてToolStripMenuItem_Click);
             // 
             // usageToolStripMenuItem
             // 
             this.usageToolStripMenuItem.Name = "usageToolStripMenuItem";
-            this.usageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.usageToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.usageToolStripMenuItem.Text = "Usage";
             this.usageToolStripMenuItem.Click += new System.EventHandler(this.usageToolStripMenuItem_Click);
             // 
@@ -439,8 +485,8 @@ namespace DoNuTS_dotNET4_0
             // 
             this.dataGridView1.AllowDrop = true;
             this.dataGridView1.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -449,41 +495,26 @@ namespace DoNuTS_dotNET4_0
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(1186, 379);
+            this.dataGridView1.Size = new System.Drawing.Size(1078, 379);
             this.dataGridView1.TabIndex = 55;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox6
             // 
             this.groupBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(184)))), ((int)(((byte)(250)))));
-            this.groupBox6.Controls.Add(this.radioButton2);
             this.groupBox6.Controls.Add(this.button9);
-            this.groupBox6.Controls.Add(this.radioButton1);
             this.groupBox6.Location = new System.Drawing.Point(978, 172);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-            this.groupBox6.Size = new System.Drawing.Size(220, 80);
+            this.groupBox6.Size = new System.Drawing.Size(110, 80);
             this.groupBox6.TabIndex = 62;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Analyze";
             // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(10, 50);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(47, 16);
-            this.radioButton2.TabIndex = 15;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "DLP";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
-            // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(120, 15);
+            this.button9.Location = new System.Drawing.Point(10, 15);
             this.button9.Margin = new System.Windows.Forms.Padding(1);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(90, 60);
@@ -492,23 +523,10 @@ namespace DoNuTS_dotNET4_0
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(10, 24);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(102, 16);
-            this.radioButton1.TabIndex = 14;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "MeanCTDIvol";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
             // button10
             // 
             this.button10.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button10.Location = new System.Drawing.Point(1098, 65);
+            this.button10.Location = new System.Drawing.Point(985, 65);
             this.button10.Margin = new System.Windows.Forms.Padding(1);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(93, 70);
@@ -559,60 +577,12 @@ namespace DoNuTS_dotNET4_0
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // registerToolStripMenuItem
-            // 
-            this.registerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.defaultProtocolToolStripMenuItem1,
-            this.scanNameToolStripMenuItem1});
-            this.registerToolStripMenuItem.Name = "registerToolStripMenuItem";
-            this.registerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.registerToolStripMenuItem.Text = "Register";
-            this.registerToolStripMenuItem.Click += new System.EventHandler(this.registerToolStripMenuItem_Click);
-            // 
-            // defaultProtocolToolStripMenuItem1
-            // 
-            this.defaultProtocolToolStripMenuItem1.Name = "defaultProtocolToolStripMenuItem1";
-            this.defaultProtocolToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.defaultProtocolToolStripMenuItem1.Text = "Default Protocol";
-            this.defaultProtocolToolStripMenuItem1.Click += new System.EventHandler(this.defaultProtocolToolStripMenuItem1_Click_1);
-            // 
-            // scanNameToolStripMenuItem1
-            // 
-            this.scanNameToolStripMenuItem1.Name = "scanNameToolStripMenuItem1";
-            this.scanNameToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.scanNameToolStripMenuItem1.Text = "ScanName";
-            this.scanNameToolStripMenuItem1.Click += new System.EventHandler(this.scanNameToolStripMenuItem1_Click_1);
-            // 
-            // veiwToolStripMenuItem
-            // 
-            this.veiwToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.defaultProtocolToolStripMenuItem2,
-            this.scanNameToolStripMenuItem2});
-            this.veiwToolStripMenuItem.Name = "veiwToolStripMenuItem";
-            this.veiwToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.veiwToolStripMenuItem.Text = "View";
-            this.veiwToolStripMenuItem.Click += new System.EventHandler(this.veiwToolStripMenuItem_Click);
-            // 
-            // defaultProtocolToolStripMenuItem2
-            // 
-            this.defaultProtocolToolStripMenuItem2.Name = "defaultProtocolToolStripMenuItem2";
-            this.defaultProtocolToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.defaultProtocolToolStripMenuItem2.Text = "Default Protocol";
-            this.defaultProtocolToolStripMenuItem2.Click += new System.EventHandler(this.defaultProtocolToolStripMenuItem2_Click_1);
-            // 
-            // scanNameToolStripMenuItem2
-            // 
-            this.scanNameToolStripMenuItem2.Name = "scanNameToolStripMenuItem2";
-            this.scanNameToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.scanNameToolStripMenuItem2.Text = "ScanName";
-            this.scanNameToolStripMenuItem2.Click += new System.EventHandler(this.scanNameToolStripMenuItem2_Click_1);
-            // 
             // MiSDO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(226)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(1210, 652);
+            this.ClientSize = new System.Drawing.Size(1102, 652);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox1);
@@ -644,7 +614,6 @@ namespace DoNuTS_dotNET4_0
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -687,8 +656,6 @@ namespace DoNuTS_dotNET4_0
         private System.Windows.Forms.ToolStripMenuItem usageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pathToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ToolStripMenuItem makeProjectionDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tesseractToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem defaultProtocolToolStripMenuItem;
