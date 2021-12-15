@@ -27,9 +27,12 @@ def select_directory(initial_path: str) -> str:
         [str]: dicom dir which selected by tkinter
     """
 
+    # tk のインスタンス作成
     root_select_directory = tk.Tk()
+    # 画面の最上層に表示
     root_select_directory.attributes("-topmost", True)
     root_select_directory.withdraw()
+    # tk.filedialog.askdirectory で取得し, 変数dicom_directoryに代入
     dicom_directory = tk.filedialog.askdirectory(
         initialdir=initial_path, title='DICOMファイルが含まれるフォルダを選択')
     return dicom_directory
