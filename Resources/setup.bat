@@ -7,23 +7,25 @@ call mkdir misdo_env
 call mkdir .\Resources\temp
 call py -3.7 -m venv misdo_env
 call .\misdo_env\Scripts\activate
-call pip install --no-deps .\Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl
-call pip install --no-deps .\Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl
-call pip install --no-deps .\Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl
-call pip install --no-deps .\Resources\moduls\Pillow-8.3.1-cp37-cp37m-win_amd64.whl
-call pip install --no-deps .\Resources\moduls\pydicom-2.2.0-py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\wheel-0.37.1-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\python_dateutil-2.8.2-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\pytz-2021.1-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\six-1.16.0-py2.py3-none-any.whl
-call pip install --no-deps .\Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl
-call pip install --no-deps .\Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl
 call pip install --no-deps .\Resources\moduls\scipy-1.7.1-cp37-cp37m-win_amd64.whl
-call pip install --no-deps .\Resources\moduls\seaborn-0.11.2-py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\cycler-0.10.0-py2.py3-none-any.whl
 call pip install --no-deps .\Resources\moduls\kiwisolver-1.3.1-cp37-cp37m-win_amd64.whl
 call pip install --no-deps .\Resources\moduls\pyparsing-2.4.7-py2.py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\colorama-0.4.4-py2.py3-none-any.whl
+
+call pip install --no-deps .\Resources\moduls\tqdm-4.62.1-py2.py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\numpy-1.21.2-cp37-cp37m-win_amd64.whl
+call pip install --no-deps .\Resources\moduls\Pillow-9.0.0-cp37-cp37m-win_amd64.whl
+call pip install --no-deps .\Resources\moduls\pandas-1.3.2-cp37-cp37m-win_amd64.whl
+call pip install --no-deps .\Resources\moduls\pydicom-2.2.0-py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\matplotlib-3.4.2-cp37-cp37m-win_amd64.whl
+call pip install --no-deps .\Resources\moduls\seaborn-0.11.2-py3-none-any.whl
+call pip install --no-deps .\Resources\moduls\python_Levenshtein-0.12.2-cp37-cp37m-win_amd64.whl
 
 
-call pip install --no-deps --find-links=.\Resources\moduls python-Levenshtein
 call pip install --no-deps --find-links=.\Resources\moduls pyocr
 call exit
